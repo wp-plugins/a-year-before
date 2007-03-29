@@ -73,7 +73,6 @@ function ayb_posts( $para='') {
         echo $before.$pdate.'<a href="'.$plink.'" class="ayb_link">'.$ptitle.'</a>'.$after."\r";
     	}
     } else {
-
         echo $before.$pdate.'<span class="ayb_notfound">'.$notfound.'</span>'.$after."\r";
     }
 }
