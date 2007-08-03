@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: wuerzblog
 Donate link: http://wuerzblog.de/
-Tags: date
+Tags: date, post, history
 Requires at least: 2.0.0
 Tested up to: 2.1.2
 Stable tag: trunk
