@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: wuerzblog
 Donate link: http://wuerzblog.de/
-Tags: date, post, history
+Tags: date, post, history, sidebar
 Requires at least: 2.0.0
 Tested up to: 2.2.1
 Stable tag: trunk
@@ -18,8 +18,8 @@ With »A Year Before« you can show the titles of the articles, which were writt
 2. Then activate the plugin.
 3. In your template — e.g. the sidebar — you can insert the following PHP-code:
 	<?php if (function_exists("ayb_posts")) { ?>
-	<div class="einjahr">
-		<h2>Vor einem Jahr</h2>
+	<div class="box">
+		<h2>Posts a year ago</h2>
 		<ul>
 			<?php ayb_posts(); ?>
 		</ul>
