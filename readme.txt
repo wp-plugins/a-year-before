@@ -12,9 +12,13 @@ With »A Year Before« you can show the titles of the articles, which were writt
 
 == Installation ==
 
-* This is still the text für the non-widget-use of the plugin
-Simple activate the plugin, pull the widget in the sidebar (themes/widgets) and configure it there.
-*
+=== Using widgets in wordpress ===
+
+1. Download the plugin and put the file ayb_posts.php in the plugin-folder of your  Wordpress-installation.
+2. Then activate the plugin.
+3. Simple activate the plugin, pull the widget in the sidebar (themes/widgets) and configure it there.
+
+===  Not using widgets in wordpress ===
 
 1. Download the plugin and put the file ayb_posts.php in the plugin-folder of your  Wordpress-installation.
 2. Then activate the plugin.
@@ -30,6 +34,12 @@ Simple activate the plugin, pull the widget in the sidebar (themes/widgets) and 
 
 == Configuration ==
 
+=== Using the widget ===
+
+Just click on the configaration-button of the widget an use the popup-dialog.
+
+===  Not using the widget ===
+
 You can pass some parameters in this scheme
 parameter1=value1&parameter2=value2&parameter3=value3 ...
 
@@ -44,16 +54,22 @@ You can use the following parameters
 * dateformat : dateformat as used by PHP. Default ist the german shortform »d.m.y«
 * notfound: the text the plugin will output, if no article is found on the defined date.
 
-== Examples ==
+==== Examples ====
 `ayb_posts("day=30&before=&after=<br />&showdate=0");`
 Shows the titles of the articles written 30 days ago without showing the date. The articles will not been showed as a HTML-list but simply seperated by a linebreak `<br />`.
 
 `ayb_posts("month=6&day=14&notfound=Nothing blogged on this day.");`
 The titles of the articles written half a year and two weeks before, also showing the date . If there was no article written on that day, the output will be »Nothing blogged on this day.«
 
+== Styling ==
 If you like CSS, you can style the date with the class `ayb_date`, the link of the article with the class `ayb_link` and the notfound-message by using the class `ayb_notfound`.
 
 == Changelog ==
+
+0.6beta3
+
+* Localization
+* Added german language-file
 
 0.6beta2
 
