@@ -9,22 +9,24 @@ Description: Gibt die Artikel an, die vor einem Jahr oder einer beliebigen Zeits
 */
 
 $ayb_posts_domain = 'ayb_posts';
+load_plugin_textdomain($ayb_posts_domain);
+
 
 function ayb_posts_init() {
 	if ( !function_exists('register_sidebar_widget') )
 	return;
-
+	
 	function ayb_posts($para=Array()) {
 		if (preg_match("/sidebar/i",$para["name"])) $ayb_posts_is_widget=true;
 
 		global $wpdb, $ayb_posts_domain;
-		load_plugin_textdomain($ayb_posts_domain, 'wp-content/plugins');
+		
 		
 		if ($ayb_posts_is_widget) extract($para);
 
 		$options = get_option("ayb_posts");
 			if ( !is_array($options) ) {
-				$options = array('title'=>__('Vor einem Jahr',$ayb_posts_domain));
+				$options = array('title'=>__('A year ago',$ayb_posts_domain));
 			}
 		if ($ayb_posts_is_widget) {
 			$para="";
@@ -40,8 +42,8 @@ function ayb_posts_init() {
 	$before="<li>";
 	$after="</li>";
 	$showdate=1;
-	$dateformat="d.m.y";
-	$notfound=__("Kein Beitrag an diesem Tag.",$ayb_posts_domain);
+	$dateformat=__('Y-m-d',$ayb_posts_domain);
+	$notfound=__("No articles on this date.",$ayb_posts_domain);
 	$parameter = explode('&', $para);
 	$i = 0;
 	while ($i < count($parameter)) {
@@ -113,9 +115,10 @@ function ayb_posts_init() {
 	}
 
 	function ayb_posts_widget_control() {
+		global $ayb_posts_domain;
 		$options = get_option("ayb_posts");
 		if ( !is_array($options) ) {
-			$options = array('title'=>__('Vor einem Jahr',$ayb_posts_domain), 'day'=>0, 'month'=>0, 'year'=>1, 'showdate'=>1, 'dateformat'=>'d.m.Y', 'notfound'=>__('Kein Beitrag an diesem Tag.',$ayb_posts_domain));
+			$options = array('title'=>__('A year ago',$ayb_posts_domain), 'day'=>0, 'month'=>0, 'year'=>1, 'showdate'=>1, 'dateformat'=>__('Y-m-d',$ayb_posts_domain), 'notfound'=>__('No articles on this date.',$ayb_posts_domain));
 
 		}
 		$title=$options['title'];
@@ -140,14 +143,14 @@ function ayb_posts_init() {
 
 		$title = htmlspecialchars($options['title'], ENT_QUOTES);
 
-		echo '<p style="text-align:right;"><label for="ayb_posts_title">' . __('Titel:',$ayb_posts_domain) . ' <input style="width: 200px;" id="ayb_posts_title" name="ayb_posts_title" type="text" value="'.$title.'" /></label></p>';
-		echo '<p style="text-align:right;"><label for="ayb_posts_day">' . __('Tage zuvor:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_day" name="ayb_posts_day" type="text" value="'.$day.'" /></label></p>';
-		echo '<p style="text-align:right;"><label for="ayb_posts_month">' . __('Monate zuvor:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_month" name="ayb_posts_month" type="text" value="'.$month.'" /></label></p>';
-		echo '<p style="text-align:right;"><label for="ayb_posts_year">' . __('Jahre zuvor:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_year" name="ayb_posts_year" type="text" value="'.$year.'" /></label></p>';
-		echo '<p style="text-align:right;"><label for="ayb_posts_showdate">' . __('Zeige Datum an:',$ayb_posts_domain) . ' <input style="width: 15px;" id="ayb_posts_showdate" name="ayb_posts_showdate" type="checkbox" value="1"'.(($showdate==0)?'':'checked').' /></label></p>';
-		echo '<p style="text-align:right;"><label for="ayb_posts_dateformat">' . __('Datumsformat:',$ayb_posts_domain) . ' <input style="width: 45px;" id="ayb_posts_dateformat" name="ayb_posts_dateformat" type="text" value="'.$dateformat.'" /></label></p>';
-		echo '<p style="text-align:right;"><label for="ayb_posts_notfound">' . __('Text, wenn kein Beitrag gefunden:',$ayb_posts_domain) . ' <input style="width: 200px;" id="ayb_posts_notfound" name="ayb_posts_notfound" type="text" value="'.$notfound.'" /></label></p>';
-		echo '<p style="text-align:right;"><input type="submit" id="ayb_posts_submit" name="ayb_posts_submit" value="'. __('Aktualisieren',$ayb_posts_domain) . '" /></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_title">' . __('Title:',$ayb_posts_domain) . ' <input style="width: 200px;" id="ayb_posts_title" name="ayb_posts_title" type="text" value="'.$title.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_day">' . __('Days before:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_day" name="ayb_posts_day" type="text" value="'.$day.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_month">' . __('Months before:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_month" name="ayb_posts_month" type="text" value="'.$month.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_year">' . __('Years before:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_year" name="ayb_posts_year" type="text" value="'.$year.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_showdate">' . __('Show date:',$ayb_posts_domain) . ' <input style="width: 15px;" id="ayb_posts_showdate" name="ayb_posts_showdate" type="checkbox" value="1"'.(($showdate==0)?'':'checked').' /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_dateformat">' . __('Dateformat:',$ayb_posts_domain) . ' <input style="width: 45px;" id="ayb_posts_dateformat" name="ayb_posts_dateformat" type="text" value="'.$dateformat.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_notfound">' . __('Text, if no article found:','ayb_posts') . ' <input style="width: 200px;" id="ayb_posts_notfound" name="ayb_posts_notfound" type="text" value="'.$notfound.'" /></label></p>';
+		echo '<p style="text-align:right;"><input type="submit" id="ayb_posts_submit" name="ayb_posts_submit" value="'. __('Update',$ayb_posts_domain) . '" /></p>';
 
 	}
 
