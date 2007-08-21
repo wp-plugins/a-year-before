@@ -8,15 +8,15 @@ Stable tag: trunk
 
 == Description ==
 
-With »A Year Before« you can show the titles of the articles, which were written a certain time ago. So you can show in a »historical corner«, what happend in your blog e.g. 30 days, 6 months or a year before.
+With »A Year Before« you can show the titles of the articles which were written a certain time ago. So you can show in a »historical corner«, what happend in your blog e.g. 30 days, 6 months or a year before. Yout can use it as a wordpress-widget or put it in your theme as a php-function with parameters.
 
 == Installation ==
 
 === Using widgets in wordpress ===
 
-1. Download the plugin and put the file ayb_posts.php in the plugin-folder of your  Wordpress-installation.
+1. Download the plugin and put the directory "a-year-before" in the plugin-folder of your wordpress-installation.
 2. Then activate the plugin.
-3. Simple activate the plugin, pull the widget in the sidebar (themes/widgets) and configure it there.
+3. Go "Themes/Widgets" and pull the widget in the sidebar. Ready to go! Configure it, if you want.
 
 ===  Not using widgets in wordpress ===
 
@@ -36,7 +36,7 @@ With »A Year Before« you can show the titles of the articles, which were writt
 
 === Using the widget ===
 
-Just click on the configaration-button of the widget an use the popup-dialog.
+Just click on the configuration-button of the widget an use the selfexplaining popup-dialog.
 
 ===  Not using the widget ===
 
