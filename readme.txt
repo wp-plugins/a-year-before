@@ -6,6 +6,8 @@ Requires at least: 2.0.0
 Tested up to: 2.2.2
 Stable tag: trunk
 
+»A Year Before« shows a list of articles, which were written a certain time ago. So you can show in a history, what happend in your blog in the past.
+
 == Description ==
 
 With »A Year Before« you can show the titles of the articles which were written a certain time ago. So you can show in a »historical corner«, what happend in your blog e.g. 30 days, 6 months or a year before. You can use it as a wordpress-widget or put it in your theme as a php-function with parameters.
