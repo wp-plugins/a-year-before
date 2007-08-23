@@ -1,4 +1,4 @@
-﻿=== A Year Before ===
+=== A Year Before ===
 Contributors: wuerzblog
 Donate link: http://wuerzblog.de/
 Tags: date, posts, history, widget
@@ -6,7 +6,7 @@ Requires at least: 2.0.0
 Tested up to: 2.2.2
 Stable tag: trunk
 
-»A Year Before« shows a list of articles, which were written a certain time ago. So you can show in a history, what happend in your blog in the past.
+»A Year Before« shows a list of articles, which were written a certain time ago. So you can show in a history, what happend in your blog in the past
 
 == Description ==
 
