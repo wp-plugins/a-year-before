@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.6beta4
+Version: 0.6
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
@@ -11,8 +11,6 @@ Description: Gibt die Artikel an, die vor einem Jahr oder einer beliebigen Zeits
 $ayb_posts_domain = 'ayb_posts';
 $ayb_install_dir=basename(dirname(__FILE__));
 load_plugin_textdomain($ayb_posts_domain, "wp-content/plugins/$ayb_install_dir");
-
-
 
 function ayb_posts_init() {
 	if ( !function_exists('register_sidebar_widget') )
