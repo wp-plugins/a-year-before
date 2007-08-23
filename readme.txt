@@ -1,10 +1,10 @@
 ﻿=== Plugin Name ===
 Contributors: wuerzblog
 Donate link: http://wuerzblog.de/
-Tags: date, posts, history
+Tags: date, posts, history, widget
 Requires at least: 2.0.0
 Tested up to: 2.2.2
-Stable tag: trunk
+Stable tag: 0.5.3
 
 == Description ==
 
@@ -55,6 +55,7 @@ You can use the following parameters
 * notfound: the text the plugin will output, if no article is found on the defined date.
 
 ==== Examples ====
+
 `ayb_posts("day=30&before=&after=<br />&showdate=0");`
 Shows the titles of the articles written 30 days ago without showing the date. The articles will not been showed as a HTML-list but simply seperated by a linebreak `<br />`.
 
@@ -62,6 +63,7 @@ Shows the titles of the articles written 30 days ago without showing the date. T
 The titles of the articles written half a year and two weeks before, also showing the date . If there was no article written on that day, the output will be »Nothing blogged on this day.«
 
 == Styling ==
+
 If you like CSS, you can style the date with the class `ayb_date`, the link of the article with the class `ayb_link` and the notfound-message by using the class `ayb_notfound`.
 
 == Changelog ==
