@@ -1,4 +1,4 @@
-﻿=== Plugin Name ===
+﻿=== A Year Before ===
 Contributors: wuerzblog
 Donate link: http://wuerzblog.de/
 Tags: date, posts, history, widget
