@@ -4,7 +4,7 @@ Donate link: http://wuerzblog.de/
 Tags: date, post, history, sidebar
 Requires at least: 2.0.0
 Tested up to: 2.2.1
-Stable tag: 0.5.3
+Stable tag: trunk
 
 »A Year Before« shows a list of articles, which were written a certain time ago. So you can show in a history, what happend in your blog in the past.
 
