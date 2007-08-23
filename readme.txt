@@ -4,7 +4,7 @@ Donate link: http://wuerzblog.de/
 Tags: date, posts, history, widget
 Requires at least: 2.0.0
 Tested up to: 2.2.2
-Stable tag: 0.5.3
+Stable tag: trunk
 
 == Description ==
 
