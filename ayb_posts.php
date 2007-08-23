@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.6beta2
+Version: 0.6beta3
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
@@ -14,7 +14,6 @@ function ayb_posts_init() {
 	function ayb_posts($para=Array()) {
 		if (preg_match("/sidebar/i",$para["name"])) $ayb_posts_is_widget=true;
 
-		//print_r( $para);
 		global $wpdb;
 		if ($ayb_posts_is_widget) extract($para);
 
@@ -27,7 +26,6 @@ function ayb_posts_init() {
 			foreach ($options as $key => $val) {
 				$para.="$key=$val&";
 		}
-		//echo $para;
 		}
 
 	$title=$options["title"];
@@ -78,12 +76,8 @@ function ayb_posts_init() {
 
 	$datum  = getdate(mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear));
 
-
-	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND YEAR(post_date_gmt)=YEAR(NOW()- INTERVAL $dyear YEAR) AND MONTH(post_date_gmt)=MONTH(NOW()- INTERVAL $dmonth MONTH) AND DAYOFMONTH(post_date_gmt)=DAYOFMONTH(NOW()- INTERVAL $dday DAY) ORDER BY post_date_gmt";
 	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND YEAR(post_date_gmt)=".$datum['year']." AND MONTH(post_date_gmt)=".$datum['mon']." AND DAYOFMONTH(post_date_gmt)=".$datum['mday']." ORDER BY post_date_gmt";
-	//echo $q;
 	$result = $wpdb->get_results($q, OBJECT);
-	//print_r($result);
 
 	//Ausgabe für's Widget
 	if ($ayb_posts_is_widget) {
@@ -116,14 +110,6 @@ function ayb_posts_init() {
 	function ayb_posts_widget_control() {
 		$options = get_option("ayb_posts");
 		if ( !is_array($options) ) {
-			/*$options = array('title'=>'Vor einem Jahr');
-			$options = array('day'=>0);
-			$options = array('month'=>0);
-			$options = array('year'=>1);
-			$options = array('showdate'=>1);
-			$options = array('dateformat'=>'d.m.Y');
-			$options = array('notfound'=>'Kein Beitrag an diesem Tag');
-			*/
 			$options = array('title'=>'Vor einem Jahr', 'day'=>0, 'month'=>0, 'year'=>1, 'showdate'=>1, 'dateformat'=>'d.m.Y', 'notfound'=>'Kein Beitrag an diesem Tag');
 
 		}
@@ -137,7 +123,6 @@ function ayb_posts_init() {
 
 		if ( $_POST['ayb_posts_submit'] ) {
 
-			// Remember to sanitize and format use input appropriately.
 			$options['title'] = strip_tags(stripslashes($_POST['ayb_posts_title']));
 			$options["day"]=strip_tags(stripslashes($_POST['ayb_posts_day']));
 			$options["month"]=strip_tags(stripslashes($_POST['ayb_posts_month']));
@@ -148,11 +133,8 @@ function ayb_posts_init() {
 			update_option('ayb_posts', $options);
 		}
 
-		// Be sure you format your options to be valid HTML attributes.
 		$title = htmlspecialchars($options['title'], ENT_QUOTES);
 
-		// Here is our little form segment. Notice that we don't need a
-		// complete form. This will be embedded into the existing form.
 		echo '<p style="text-align:right;"><label for="ayb_posts_title">' . __('Title:') . ' <input style="width: 200px;" id="ayb_posts_title" name="ayb_posts_title" type="text" value="'.$title.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_day">' . __('Tage zuvor:') . ' <input style="width: 30px;" id="ayb_posts_day" name="ayb_posts_day" type="text" value="'.$day.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_month">' . __('Monate zuvor:') . ' <input style="width: 30px;" id="ayb_posts_month" name="ayb_posts_month" type="text" value="'.$month.'" /></label></p>';
