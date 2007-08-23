@@ -3,7 +3,7 @@ Contributors: wuerzblog
 Donate link: http://wuerzblog.de/
 Tags: date, posts, history
 Requires at least: 2.0.0
-Tested up to: 2.2.1
+Tested up to: 2.2.2
 Stable tag: trunk
 
 == Description ==
@@ -61,7 +61,7 @@ Shows the titles of the articles written 30 days ago without showing the date. T
 `ayb_posts("month=6&day=14&notfound=Nothing blogged on this day.");`
 The titles of the articles written half a year and two weeks before, also showing the date . If there was no article written on that day, the output will be »Nothing blogged on this day.«
 
-== Styling ==
+=== Styling ===
 If you like CSS, you can style the date with the class `ayb_date`, the link of the article with the class `ayb_link` and the notfound-message by using the class `ayb_notfound`.
 
 == Changelog ==
