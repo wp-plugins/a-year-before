@@ -25,14 +25,15 @@ With »A Year Before« you can show the titles of the articles which were writte
 1. Download the plugin and put the file ayb_posts.php in the plugin-folder of your  Wordpress-installation.
 2. Then activate the plugin.
 3. In your template — e.g. the sidebar — you can insert the following PHP-code:
-        <?php if (function_exists("ayb_posts")) { ?>
-        <div class="einjahr">
-        <h2>Vor einem Jahr</h2>
-          <ul>
-             <?php ayb_posts(); ?>
-          </ul>
-        </div>
-        <?php } ?>
+
+		<?php if (function_exists("ayb_posts")) { ?>
+		<div class="einjahr">
+		<h2>Vor einem Jahr</h2>
+		  <ul>
+			 <?php ayb_posts(); ?>
+		  </ul>
+		</div>
+		<?php } ?>
 
 == Configuration ==
 
@@ -40,7 +41,7 @@ With »A Year Before« you can show the titles of the articles which were writte
 
 Just click on the configuration-button of the widget an use the selfexplaining popup-dialog.
 
-=  Not using the widget =
+= Not using the widget =
 
 You can pass some parameters in this scheme
 parameter1=value1&parameter2=value2&parameter3=value3 ...
