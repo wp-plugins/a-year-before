@@ -14,13 +14,13 @@ With »A Year Before« you can show the titles of the articles which were writte
 
 == Installation ==
 
-=== Using widgets in wordpress ===
+= Using widgets in wordpress =
 
 1. Download the plugin and put the directory "a-year-before" in the plugin-folder of your wordpress-installation.
 2. Then activate the plugin.
 3. Go "Themes/Widgets" and pull the widget in the sidebar. Ready to go! Configure it, if you want.
 
-===  Not using widgets in wordpress ===
+=  Not using widgets in wordpress =
 
 1. Download the plugin and put the file ayb_posts.php in the plugin-folder of your  Wordpress-installation.
 2. Then activate the plugin.
@@ -36,11 +36,11 @@ With »A Year Before« you can show the titles of the articles which were writte
 
 == Configuration ==
 
-=== Using the widget ===
+= Using the widget =
 
 Just click on the configuration-button of the widget an use the selfexplaining popup-dialog.
 
-===  Not using the widget ===
+=  Not using the widget =
 
 You can pass some parameters in this scheme
 parameter1=value1&parameter2=value2&parameter3=value3 ...
@@ -56,7 +56,7 @@ You can use the following parameters
 * dateformat : dateformat as used by PHP. Default ist the german shortform »d.m.y«
 * notfound: the text the plugin will output, if no article is found on the defined date.
 
-==== Examples ====
+= Examples =
 
 `ayb_posts("day=30&before=&after=<br />&showdate=0");`
 Shows the titles of the articles written 30 days ago without showing the date. The articles will not been showed as a HTML-list but simply seperated by a linebreak `<br />`.
