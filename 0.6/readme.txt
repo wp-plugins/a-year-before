@@ -1,22 +1,22 @@
-=== Plugin Name ===
+﻿=== Plugin Name ===
 Contributors: wuerzblog
 Donate link: http://wuerzblog.de/
-Tags: date, posts, history
+Tags: date, posts, history, widget
 Requires at least: 2.0.0
 Tested up to: 2.2.2
-Stable tag: trunk
+Stable tag: 0.6
 
 == Description ==
 
-With »A Year Before« you can show the titles of the articles, which were written a certain time ago. So you can show in a »historical corner«, what happend in your blog e.g. 30 days, 6 months or a year before.
+With »A Year Before« you can show the titles of the articles which were written a certain time ago. So you can show in a »historical corner«, what happend in your blog e.g. 30 days, 6 months or a year before. Yout can use it as a wordpress-widget or put it in your theme as a php-function with parameters.
 
 == Installation ==
 
 === Using widgets in wordpress ===
 
-1. Download the plugin and put the file ayb_posts.php in the plugin-folder of your  Wordpress-installation.
+1. Download the plugin and put the directory "a-year-before" in the plugin-folder of your wordpress-installation.
 2. Then activate the plugin.
-3. Simple activate the plugin, pull the widget in the sidebar (themes/widgets) and configure it there.
+3. Go "Themes/Widgets" and pull the widget in the sidebar. Ready to go! Configure it, if you want.
 
 ===  Not using widgets in wordpress ===
 
@@ -36,7 +36,7 @@ With »A Year Before« you can show the titles of the articles, which were writt
 
 === Using the widget ===
 
-Just click on the configaration-button of the widget an use the popup-dialog.
+Just click on the configuration-button of the widget an use the selfexplaining popup-dialog.
 
 ===  Not using the widget ===
 
@@ -55,16 +55,26 @@ You can use the following parameters
 * notfound: the text the plugin will output, if no article is found on the defined date.
 
 ==== Examples ====
+
 `ayb_posts("day=30&before=&after=<br />&showdate=0");`
 Shows the titles of the articles written 30 days ago without showing the date. The articles will not been showed as a HTML-list but simply seperated by a linebreak `<br />`.
 
 `ayb_posts("month=6&day=14&notfound=Nothing blogged on this day.");`
 The titles of the articles written half a year and two weeks before, also showing the date . If there was no article written on that day, the output will be »Nothing blogged on this day.«
 
-=== Styling ===
+== Styling ==
+
 If you like CSS, you can style the date with the class `ayb_date`, the link of the article with the class `ayb_link` and the notfound-message by using the class `ayb_notfound`.
 
 == Changelog ==
+
+0.6
+
+* Minor clean-up
+
+0.6beta4
+
+* Fixed finding localization files
 
 0.6beta3
 
