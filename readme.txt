@@ -3,7 +3,7 @@ Contributors: wuerzblog
 Donate link: http://wuerzblog.de/
 Tags: date, posts, history, widget
 Requires at least: 2.0.0
-Tested up to: 2.2.2
+Tested up to: 2.3.1
 Stable tag: trunk
 
 »A Year Before« shows a list of articles, which were written a certain time ago. So you can show in a history, what happend in your blog in the past
@@ -70,6 +70,10 @@ The titles of the articles written half a year and two weeks before, also showin
 If you like CSS, you can style the date with the class `ayb_date`, the link of the article with the class `ayb_link` and the notfound-message by using the class `ayb_notfound`.
 
 == Changelog ==
+
+0.6.1
+
+* Bugfix for multiple sidebars or sidebars not named "sidebar"
 
 0.6
 
