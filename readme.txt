@@ -53,7 +53,7 @@ You can use the following parameters
 * year : the number of years ago you want to show the articles.
 * before : piece of HTML to insert before the title of the articles. Default `<li>`
 * after: piece of HTML to insert after the title of the articles. Default `</li>`
-* range: number of days the plugin will search back in the past for an article. Default 1
+* range: number of days the plugin will search back in the past for an article. Default 0
 * showdate: shows the date (showdate=1) before every title or not (showdate=0)
 * dateformat : dateformat as used by PHP. Default ist the german shortform »d.m.y«
 * notfound: the text the plugin will output, if no article is found on the defined date.

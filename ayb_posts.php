@@ -47,7 +47,7 @@ function ayb_posts_init() {
 	$showdate=1;
 	$dateformat=__('Y-m-d',$ayb_posts_domain);
 	$notfound=__("No articles on this date.",$ayb_posts_domain);
-	$range=1;
+	$range=0;
 	$ayb_parameter = explode('&', $ayb_para);
 	$i = 0;
 	while ($i < count($ayb_parameter)) {
@@ -89,12 +89,12 @@ function ayb_posts_init() {
 	}
 
 	$datum  = getdate(mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear));
-	$range_date1=date("Y-m-d",mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear)).' 23:59:59';
-	$range_date2=date("Y-m-d",mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday-$range, date("Y")-$dyear)).' 00:00:00';
+	$range_date1=date("Y-m-d",mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear)).' 00:00:00';
+	$range_date2=date("Y-m-d",mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday+$range, date("Y")-$dyear)).' 23:59:59';
 
 	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND YEAR(post_date_gmt)=".$datum['year']." AND MONTH(post_date_gmt)=".$datum['mon']." AND DAYOFMONTH(post_date_gmt)=".$datum['mday']." ORDER BY post_date_gmt";
-	$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date <= '".$range_date1."' AND post_date >= '".$range_date2."') ORDER BY post_date DESC";	
-//echo $q;	
+	$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date >= '".$range_date1."' AND post_date <= '".$range_date2."') ORDER BY post_date DESC";	
+echo $q;	
 	$result = $wpdb->get_results($q, OBJECT);
 	//print_r($result);
 
@@ -145,7 +145,7 @@ $pdate='<span class="ayb_date">'.date($dateformat,mktime(0, 0, 0, date("m")-$dmo
 		global $ayb_posts_domain;
 		$options = get_option("ayb_posts");
 		if ( !is_array($options) ) {
-			$options = array('title'=>__('A year ago',$ayb_posts_domain), 'day'=>0, 'month'=>0, 'year'=>1, 'showdate'=>1, 'dateformat'=>__('Y-m-d',$ayb_posts_domain), 'notfound'=>__('No articles on this date.',$ayb_posts_domain),'range'=>1);
+			$options = array('title'=>__('A year ago',$ayb_posts_domain), 'day'=>0, 'month'=>0, 'year'=>1, 'showdate'=>1, 'dateformat'=>__('Y-m-d',$ayb_posts_domain), 'notfound'=>__('No articles on this date.',$ayb_posts_domain),'range'=>0);
 
 		}
 		$title=$options['title'];
