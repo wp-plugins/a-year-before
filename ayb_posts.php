@@ -94,7 +94,7 @@ function ayb_posts_init() {
 
 	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND YEAR(post_date_gmt)=".$datum['year']." AND MONTH(post_date_gmt)=".$datum['mon']." AND DAYOFMONTH(post_date_gmt)=".$datum['mday']." ORDER BY post_date_gmt";
 	$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date >= '".$range_date1."' AND post_date <= '".$range_date2."') ORDER BY post_date DESC";	
-echo $q;	
+//echo $q;	
 	$result = $wpdb->get_results($q, OBJECT);
 	//print_r($result);
 
