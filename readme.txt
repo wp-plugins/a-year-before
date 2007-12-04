@@ -53,6 +53,7 @@ You can use the following parameters
 * year : the number of years ago you want to show the articles.
 * before : piece of HTML to insert before the title of the articles. Default `<li>`
 * after: piece of HTML to insert after the title of the articles. Default `</li>`
+* range: number of days the plugin will search back in the past for an article. Default 1
 * showdate: shows the date (showdate=1) before every title or not (showdate=0)
 * dateformat : dateformat as used by PHP. Default ist the german shortform »d.m.y«
 * notfound: the text the plugin will output, if no article is found on the defined date.
@@ -65,11 +66,22 @@ Shows the titles of the articles written 30 days ago without showing the date. T
 `ayb_posts("month=6&day=14&notfound=Nothing blogged on this day.");`
 The titles of the articles written half a year and two weeks before, also showing the date . If there was no article written on that day, the output will be »Nothing blogged on this day.«
 
+`ayb_posts("range=14&dateformat=y-m-d");`
+Looks up a year back for written articles. If none are found, the plugin will check the next 7 days in the past. If a article is found on some of this days, all articles of this day will be listed with a "year-month-day"-format.
+
 == Styling ==
 
 If you like CSS, you can style the date with the class `ayb_date`, the link of the article with the class `ayb_link` and the notfound-message by using the class `ayb_notfound`.
 
 == Changelog ==
+
+0.7beta1
+
+* added range-parameter. you can use e.g. year=1&range=7 if you want to look back one year for articles. if no article is found on this day, the plugin will look up to 7 days back and lists the articles of the day the first article was found.
+
+0.6.1
+
+* Fix for sidebars not named 'sidebar'
 
 0.6
 
