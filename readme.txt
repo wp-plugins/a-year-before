@@ -75,6 +75,10 @@ If you like CSS, you can style the date with the class `ayb_date`, the link of t
 
 == Changelog ==
 
+0.7beta2
+
+*  fixed: plugin generated invalid XHTML in some cases
+
 0.7beta1
 
 * added range-parameter. you can use e.g. year=1&range=7 if you want to look back one year for articles. if no article is found on this day, the plugin will look up to 7 days back and lists the articles of the day the first article was found.

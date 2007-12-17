@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.7beta1
+Version: 0.7beta2
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
@@ -128,7 +128,7 @@ function ayb_posts_init() {
 				}
 			$plink = get_permalink($post->ID);
 			$ptitle= $post->post_title;
-			echo $before.$pdate.'<a href="'.$plink.'" class="ayb_link">'.$ptitle.'</a></span>'.$after."\r";
+			echo $before.$pdate.'<a href="'.$plink.'" class="ayb_link">'.$ptitle.'</a>'.$after."\r";
 		
 				
 			}
