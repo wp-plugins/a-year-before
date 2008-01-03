@@ -75,6 +75,10 @@ If you like CSS, you can style the date with the class `ayb_date`, the link of t
 
 == Changelog ==
 
+0.7beta3
+
+* using the wordpress timezone-offset
+
 0.7beta2
 
 *  fixed: plugin generated invalid XHTML in some cases
