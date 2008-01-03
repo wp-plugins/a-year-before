@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.7beta2
+Version: 0.7beta3
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
@@ -21,6 +21,13 @@ function ayb_posts_init() {
 }
 	
 	function ayb_posts($ayb_para=Array()) {
+	
+		function ayb_sgn($number) {
+			if ($number > 0) return "+";
+			if ($number < 0) return "-";
+			if ($number == 0) return "";
+			}	
+	
 	if ( is_array($ayb_para) && sizeof($ayb_para)>0)  $ayb_posts_is_widget=true;
 
 		global $wpdb, $ayb_posts_domain;
@@ -87,14 +94,24 @@ function ayb_posts_init() {
 	if ($dday==0 && $dmonth==0 && $dyear==0) {
 		$dyear=1;
 	}
+$ayb_tz=ayb_sgn(get_option('gmt_offset')*(-1)).get_option('gmt_offset')." hour";
+	//$datum  = getdate(mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear));
 
-	$datum  = getdate(mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear));
-	$range_date1=date("Y-m-d",mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear)).' 00:00:00';
-	$range_date2=date("Y-m-d",mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday+$range, date("Y")-$dyear)).' 23:59:59';
+	$range_date1=date("Y-m-d H:i",strtotime($ayb_tz,mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear)));
+	$range_date2=date("Y-m-d H:i",strtotime($ayb_tz,mktime(23,59,59, date("m")-$dmonth, date("d")-$dday+$range, date("Y")-$dyear)));
+	/*echo "r1: $range_date1<br />";
+echo "r2: $range_date2<br />";
+echo "tz: $ayb_tz<br />";*/
+	//$range_date1 = date("Y-m-d H:i",strtotime(ayb_sgn(get_option('gmt_offset')).get_option('gmt_offset')." hour", strtotime($range_date1))); 	
+	//$range_date2 = date("Y-m-d H:i",strtotime(ayb_sgn(get_option('gmt_offset')).get_option('gmt_offset')." hour", strtotime($range_date2))); 
+/*echo "r1: $range_date1<br />";
+echo "r2: $range_date2<br />";
+*/
 
-	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND YEAR(post_date_gmt)=".$datum['year']." AND MONTH(post_date_gmt)=".$datum['mon']." AND DAYOFMONTH(post_date_gmt)=".$datum['mday']." ORDER BY post_date_gmt";
+	//$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND YEAR(post_date)=".$datum['year']." AND MONTH(post_date)=".$datum['mon']." AND DAYOFMONTH(post_date)=".$datum['mday']." ORDER BY post_date";
 	$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date >= '".$range_date1."' AND post_date <= '".$range_date2."') ORDER BY post_date DESC";	
-//echo $q;	
+/*echo date("d.m.Y G:i")."<br>";
+echo $q;*/	
 	$result = $wpdb->get_results($q, OBJECT);
 	//print_r($result);
 
