@@ -56,6 +56,7 @@ function ayb_posts_init() {
 	$dateformat=__('Y-m-d',$ayb_posts_domain);
 	$notfound=__("No articles on this date.",$ayb_posts_domain);
 	$range=0;
+	$anniv=0;
 	$ayb_parameter = explode('&', $ayb_para);
 	$i = 0;
 	while ($i < count($ayb_parameter)) {
@@ -102,11 +103,21 @@ function ayb_posts_init() {
 
 	$range_date1=date("Y-m-d H:i",strtotime($ayb_tz,mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear)));
 	$range_date2=date("Y-m-d H:i",strtotime($ayb_tz,mktime(23,59,59, date("m")-$dmonth, date("d")-$dday+$range, date("Y")-$dyear)));
-	$month_day=substr($range_date1,4,7);
+	$month_day=substr($range_date2,4,7);
 
-	//$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date >= '".$range_date1."' AND post_date <= '".$range_date2."') ORDER BY post_date DESC";	
-	$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date LIKE '%".$month_day."%') ORDER BY post_date DESC";	
+	
+  if($anniv==0) {
+  $q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date >= '".$range_date1."' AND post_date <= '".$range_date2."') ORDER BY post_date DESC";	
+  } else {
+	$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND post_date LIKE '%".$month_day."%' AND post_date<CURDATE() ORDER BY post_date DESC";	 
+	}
 	$result = $wpdb->get_results($q, OBJECT);
+	/*echo "<!--\r$q\r//-->";
+	
+	echo "\r<!--\r";
+	print_r($result);
+	echo "\r//-->\r";
+	*/
 
 	//Ausgabe für's Widget
 	if ($ayb_posts_is_widget) {
@@ -131,7 +142,7 @@ function ayb_posts_init() {
 			$post_date=$post->post_date;
 			$ts_post_date=mktime(0,0,0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,1,4));
 			$pdate='<span class="ayb_date">'.date($dateformat,$ts_post_date)."</span> ";
-			if ($ts_post_date !=$ts_date_old) {
+			if ($ts_post_date !=$ts_date_old && $range!=0) {
 				break;
 				} else {
 					$ts_date_old=$ts_post_date;
