@@ -75,6 +75,10 @@ If you like CSS, you can style the date with the class `ayb_date`, the link of t
 
 == Changelog ==
 
+0.7beta4
+
+* adding anniversary-mode. if anniversary=0, all articles matching the current day and the current month will be show, regardless of which year (beside the actual year of course). all settings of day, month, year and range will be ignored.
+
 0.7beta3
 
 * using the wordpress timezone-offset

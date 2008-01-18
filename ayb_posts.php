@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.7beta3
+Version: 0.7beta4
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
@@ -38,7 +38,8 @@ function ayb_posts_init() {
 			$options = get_option("ayb_posts");
 			if ( !is_array($options) ) {
 				$options = array('title'=>__('A year ago',$ayb_posts_domain));
-			}
+			}
+
 			$ayb_para="";
 			foreach ($options as $key => $val) {
 				$ayb_para.="$key=$val&";
@@ -87,6 +88,9 @@ function ayb_posts_init() {
 		case "range":
 			$range=urldecode($b[1]);
 			break;
+		case "anniversary":
+		  $anniv=urldecode($b[1]);
+		  break;
 	}
 
 	$i++;
@@ -98,8 +102,10 @@ function ayb_posts_init() {
 
 	$range_date1=date("Y-m-d H:i",strtotime($ayb_tz,mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear)));
 	$range_date2=date("Y-m-d H:i",strtotime($ayb_tz,mktime(23,59,59, date("m")-$dmonth, date("d")-$dday+$range, date("Y")-$dyear)));
+	$month_day=substr($range_date1,4,7);
 
-	$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date >= '".$range_date1."' AND post_date <= '".$range_date2."') ORDER BY post_date DESC";	
+	//$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date >= '".$range_date1."' AND post_date <= '".$range_date2."') ORDER BY post_date DESC";	
+	$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date LIKE '%".$month_day."%') ORDER BY post_date DESC";	
 	$result = $wpdb->get_results($q, OBJECT);
 
 	//Ausgabe für's Widget
@@ -149,7 +155,7 @@ $pdate='<span class="ayb_date">'.date($dateformat,mktime(0, 0, 0, date("m")-$dmo
 		global $ayb_posts_domain;
 		$options = get_option("ayb_posts");
 		if ( !is_array($options) ) {
-			$options = array('title'=>__('A year ago',$ayb_posts_domain), 'day'=>0, 'month'=>0, 'year'=>1, 'showdate'=>1, 'dateformat'=>__('Y-m-d',$ayb_posts_domain), 'notfound'=>__('No articles on this date.',$ayb_posts_domain),'range'=>0);
+			$options = array('title'=>__('A year ago',$ayb_posts_domain), 'day'=>0, 'anniversary'=>0,'month'=>0, 'year'=>1, 'showdate'=>1, 'dateformat'=>__('Y-m-d',$ayb_posts_domain), 'notfound'=>__('No articles on this date.',$ayb_posts_domain),'range'=>0);
 
 		}
 		$title=$options['title'];
@@ -160,6 +166,7 @@ $pdate='<span class="ayb_date">'.date($dateformat,mktime(0, 0, 0, date("m")-$dmo
 		$dateformat=$options["dateformat"];
 		$notfound=$options["notfound"];
 		$range=$options["range"];
+		$anniv=$options["anniversary"];
 
 		if ( $_POST['ayb_posts_submit'] ) {
 
@@ -171,7 +178,9 @@ $pdate='<span class="ayb_date">'.date($dateformat,mktime(0, 0, 0, date("m")-$dmo
 			$options["dateformat"]=strip_tags(stripslashes($_POST['ayb_posts_dateformat']));
 			$options["notfound"]=strip_tags(stripslashes($_POST['ayb_posts_notfound']));
 			$options["range"]=strip_tags(stripslashes($_POST['ayb_posts_range']));
+				$options["anniversary"]=strip_tags(stripslashes($_POST['ayb_posts_anniv']));
 			update_option('ayb_posts', $options);
+			
 		}
 
 		$title = htmlspecialchars($options['title'], ENT_QUOTES);
@@ -184,6 +193,7 @@ $pdate='<span class="ayb_date">'.date($dateformat,mktime(0, 0, 0, date("m")-$dmo
 		echo '<p style="text-align:right;"><label for="ayb_posts_showdate">' . __('Show date:',$ayb_posts_domain) . ' <input style="width: 15px;" id="ayb_posts_showdate" name="ayb_posts_showdate" type="checkbox" value="1"'.(($showdate==0)?'':'checked').' /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_dateformat">' . __('Dateformat:',$ayb_posts_domain) . ' <input style="width: 45px;" id="ayb_posts_dateformat" name="ayb_posts_dateformat" type="text" value="'.$dateformat.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_notfound">' . __('Text, if no article found:','ayb_posts') . ' <input style="width: 200px;" id="ayb_posts_notfound" name="ayb_posts_notfound" type="text" value="'.$notfound.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_anniv">' . __('Anniversary-Mode:','ayb_posts') . ' <input style="width: 200px;" id="ayb_posts_anniv" name="ayb_posts_anniv" type="checkbox" value="1" '.(($anniv==0)?'':'checked').' /></label></p>';
 		echo '<p style="text-align:right;"><input type="submit" id="ayb_posts_submit" name="ayb_posts_submit" value="'. __('Update',$ayb_posts_domain) . '" /></p>';
 
 	}
@@ -191,4 +201,4 @@ $pdate='<span class="ayb_date">'.date($dateformat,mktime(0, 0, 0, date("m")-$dmo
 	
 //
 add_action('widgets_init', 'ayb_posts_init');
-?>
+?>
