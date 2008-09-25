@@ -76,6 +76,10 @@ If you like CSS, you can style the date with the class `ayb_date`, the link of t
 
 == Changelog ==
 
+0.7beta8
+
+* kicked out debug-messages ... =:-)
+
 0.7beta7
 
 * bit of cleanup
