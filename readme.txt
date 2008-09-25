@@ -3,8 +3,8 @@ Contributors: wuerzblog
 Donate link: http://wuerzblog.de/
 Tags: date, posts, history, widget
 Requires at least: 2.0.0
-Tested up to: 2.3.1
-Stable tag: 0.6.1
+Tested up to: 2.6.2
+Stable tag: trunk
 
 »A Year Before« shows a list of articles, which were written a certain time ago. So you can show in a history, what happend in your blog in the past
 
@@ -53,10 +53,11 @@ You can use the following parameters
 * year : the number of years ago you want to show the articles.
 * before : piece of HTML to insert before the title of the articles. Default `<li>`
 * after: piece of HTML to insert after the title of the articles. Default `</li>`
-* range: number of days the plugin will search back in the past for an article. Default 0
+* range: number of days the plugin will search back in the future (relative to the values of day, month and year above) for an article. Default 0
 * showdate: shows the date (showdate=1) before every title or not (showdate=0)
 * dateformat : dateformat as used by PHP. Default ist the german shortform »d.m.y«
 * notfound: the text the plugin will output, if no article is found on the defined date.
+*  anniversary: if set to 1, the plugin will display all articles ever blogged with the same number of day and month
 
 = Examples =
 
@@ -67,13 +68,19 @@ Shows the titles of the articles written 30 days ago without showing the date. T
 The titles of the articles written half a year and two weeks before, also showing the date . If there was no article written on that day, the output will be »Nothing blogged on this day.«
 
 `ayb_posts("range=14&dateformat=y-m-d");`
-Looks up a year back for written articles. If none are found, the plugin will check the next 7 days in the past. If a article is found on some of this days, all articles of this day will be listed with a "year-month-day"-format.
+Looks up a year back for written articles. If none are found, the plugin will check the next 14 days in the future. If a article is found on some of this days, all articles of this day will be listed with a "year-month-day"-format.
 
 == Styling ==
 
 If you like CSS, you can style the date with the class `ayb_date`, the link of the article with the class `ayb_link` and the notfound-message by using the class `ayb_notfound`.
 
 == Changelog ==
+
+0.7beta7
+
+* bit of cleanup
+* make date-calculation gmt-sensitive. the wordpress-timezone-option is used now. should fix problems, where articles, written a few hours (the timezone-difference) before or after midnight are not displayed correctly. 
+* some minor bugfixes
 
 0.7beta4
 

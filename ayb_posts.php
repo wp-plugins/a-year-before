@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.7beta4
+Version: 0.7beta7
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
@@ -100,24 +100,28 @@ function ayb_posts_init() {
 		$dyear=1;
 	}
 	$ayb_tz=ayb_sgn(get_option('gmt_offset')*(-1)).get_option('gmt_offset')." hour";
+  $ayb_tz_sec=get_option('gmt_offset')*360000;  
+  
+  //echo "<!-- r: ".(date("Y")-$dyear)." -->";
 
 	$range_date1=date("Y-m-d H:i",strtotime($ayb_tz,mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear)));
-	$range_date2=date("Y-m-d H:i",strtotime($ayb_tz,mktime(23,59,59, date("m")-$dmonth, date("d")-$dday+$range, date("Y")-$dyear)));
-	$month_day=substr($range_date2,4,7);
+	$range_date2=date("Y-m-d H:i",strtotime($ayb_tz,mktime(23,59,59, date("m")-$dmonth, date("d")-$dday+$range, date("Y")-$dyear)));	
+  $month_day=date("m")."-".date("d");
 
-	
+
   if($anniv==0) {
-  $q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date >= '".$range_date1."' AND post_date <= '".$range_date2."') ORDER BY post_date DESC";	
+  $q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date_gmt >= '".$range_date1."' AND post_date_gmt <= '".$range_date2."') ORDER BY post_date_gmt ASC";	
   } else {
-	$q="SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND post_date LIKE '%".$month_day."%' AND post_date<CURDATE() ORDER BY post_date DESC";	 
-	}
-	$result = $wpdb->get_results($q, OBJECT);
-	/*echo "<!--\r$q\r//-->";
+	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND post_date_gmt LIKE '%".$month_day."%' AND post_date_gmt<CURDATE() ORDER BY post_date_gmt DESC";	 
+	echo "<!-- Annivmode $month_day -->";
+  }
+  
+  echo "<p>$q</p>";
+  print_r ($result);
 	
-	echo "\r<!--\r";
-	print_r($result);
-	echo "\r//-->\r";
-	*/
+  $result = $wpdb->get_results($q, OBJECT);
+	$post_date=$post_date_gmt;
+
 
 	//Ausgabe für's Widget
 	if ($ayb_posts_is_widget) {
@@ -125,24 +129,27 @@ function ayb_posts_init() {
     echo $before_title . $title . $after_title."<ul>";
     }
 
-	if ($showdate) {
-		$post_date=$result[0]->post_date;
-		$ts_post_date=mktime(0,0,0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,1,4));
-		$pdate='<span class="ayb_date">'.date($dateformat,$ts_post_date)."</span> ";
-
-	} else {
-		$pdate='';
-		}
+	
 	if ($result) {
-	$post_date=$result[0]->post_date;
-	$ts_post_date=mktime(0,0,0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,1,4));
+	$post_date=$result[0]->post_date_gmt;
+	$ts_post_date=gmmktime(0,0,0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,0,4));
 	$ts_date_old=$ts_post_date;
-		foreach ($result as $post)
-			{
-			$post_date=$post->post_date;
-			$ts_post_date=mktime(0,0,0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,1,4));
-			$pdate='<span class="ayb_date">'.date($dateformat,$ts_post_date)."</span> ";
-			if ($ts_post_date !=$ts_date_old && $range!=0) {
+		foreach ($result as $post) {
+			$post_date=$post->post_date_gmt;
+			
+			if ($showdate) {
+    		$post_date=$post->post_date_gmt;
+    		$ts_post_date_comp=gmmktime(substr($post_date,11,2),substr($post_date,14,2),0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,0,4));
+    		//echo substr($post_date,8,2).".".substr($post_date,5,2).".".substr($post_date,0,4)." ".substr($post_date,11,2).":".substr($post_date,14,2)."<br>";
+        $pdate='<span class="ayb_date">'.date($dateformat,$ts_post_date_comp)."</span> ";
+    	  } else {
+    		$pdate='';
+		  }
+			
+			
+	$ts_post_date=gmmktime(0,0,0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,0,4));
+
+			if ($ts_post_date != $ts_date_old && $range!=0) {
 				break;
 				} else {
 					$ts_date_old=$ts_post_date;
@@ -153,10 +160,18 @@ function ayb_posts_init() {
 		
 				
 			}
-		} else {
-$pdate='<span class="ayb_date">'.date($dateformat,mktime(0, 0, 0, date("m")-$dmonth  , date("d")-$dday, date("Y")-$dyear))."</span> ";
-			echo $before.$pdate.'<span class="ayb_notfound">'.$notfound.'</span>'.$after."\r";
+		} else { 
+		// Not found
+  		if (!$anniv) {
+        $pdate='<span class="ayb_date">'.date($dateformat,gmmktime(0, 0, 0, date("m")-$dmonth  , date("d")-$dday, date("Y")-$dyear))."</span> ";
+         } else {
+        $pdate='<span class="ayb_date">'.date($dateformat,gmmktime(0, 0, 0, date("m"), date("d"), date("Y")))."</span> ";
+        }
+      echo $before.$pdate.'<span class="ayb_notfound">'.$notfound.'</span>'.$after."\r";
+			
 		}
+		
+		
 	if($ayb_posts_is_widget) {
 		echo "</ul>".$after_widget;
 	}
@@ -205,7 +220,8 @@ $pdate='<span class="ayb_date">'.date($dateformat,mktime(0, 0, 0, date("m")-$dmo
 		echo '<p style="text-align:right;"><label for="ayb_posts_dateformat">' . __('Dateformat:',$ayb_posts_domain) . ' <input style="width: 45px;" id="ayb_posts_dateformat" name="ayb_posts_dateformat" type="text" value="'.$dateformat.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_notfound">' . __('Text, if no article found:','ayb_posts') . ' <input style="width: 200px;" id="ayb_posts_notfound" name="ayb_posts_notfound" type="text" value="'.$notfound.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_anniv">' . __('Anniversary-Mode:','ayb_posts') . ' <input style="width: 200px;" id="ayb_posts_anniv" name="ayb_posts_anniv" type="checkbox" value="1" '.(($anniv==0)?'':'checked').' /></label></p>';
-		echo '<p style="text-align:right;"><input type="submit" id="ayb_posts_submit" name="ayb_posts_submit" value="'. __('Update',$ayb_posts_domain) . '" /></p>';
+		//echo '<p style="text-align:right;"><input type="submit" id="ayb_posts_submit" name="ayb_posts_submit" value="'. __('Update',$ayb_posts_domain) . '" /></p>';
+		echo '<input type="hidden" id="ayb_posts_submit" name="ayb_posts_submit" value="1" />';
 
 	}
 
