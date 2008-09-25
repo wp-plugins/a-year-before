@@ -167,7 +167,7 @@ function ayb_posts_init() {
          } else {
         $pdate='<span class="ayb_date">'.date($dateformat,gmmktime(0, 0, 0, date("m"), date("d"), date("Y")))."</span> ";
         }
-      echo $before.$pdate.'<span class="ayb_notfound">'.$notfound.'</span>'.$after."\r";
+      echo $before.'<span class="ayb_notfound">'.$notfound.'</span>'.$after."\r";
 			
 		}
 		
