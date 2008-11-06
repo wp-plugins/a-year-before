@@ -1,16 +1,29 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.7beta8
+Version: 0.7beta10
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
 Description: Gibt die Artikel an, die vor einem Jahr oder einer beliebigen Zeitspanne veröffentlicht wurden.
 */
 
+// Pre-2.6 compatibility
+if ( !defined( 'WP_CONTENT_URL' ) )
+	define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
+if ( !defined( 'WP_CONTENT_DIR' ) )
+	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+if ( !defined( 'WP_PLUGIN_URL' ) )
+	define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
+if ( !defined( 'WP_PLUGIN_DIR' ) )
+	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+if ( !defined( 'WP_LANG_DIR') )
+	define( 'WP_LANG_DIR', WP_CONTENT_DIR . '/languages' );
+
+
 $ayb_posts_domain = 'ayb_posts';
-$ayb_install_dir=basename(dirname(__FILE__));
-load_plugin_textdomain($ayb_posts_domain, "wp-content/plugins/$ayb_install_dir");
+$ayb_install_dir=dirname(plugin_basename(__FILE__));
+load_plugin_textdomain($ayb_posts_domain, WP_PLUGIN_DIR."/$ayb_install_dir", dirname(plugin_basename(__FILE__)));
 
 function ayb_posts_init() {
 	if ( !function_exists('register_sidebar_widget') )
@@ -22,11 +35,13 @@ function ayb_posts_init() {
 	
 	function ayb_posts($ayb_para=Array()) {
 	
-		function ayb_sgn($number) {
-			if ($number > 0) return "+";
-			if ($number < 0) return "-";
-			if ($number == 0) return "";
-			}	
+		if (!function_exists('ayb_sgn')) {
+			function ayb_sgn($number) {
+				if ($number > 0) return "+";
+				if ($number < 0) return "-";
+				if ($number == 0) return "";
+				}	
+			}
 	
 	if ( is_array($ayb_para) && sizeof($ayb_para)>0)  $ayb_posts_is_widget=true;
 
@@ -104,21 +119,26 @@ function ayb_posts_init() {
   
   //echo "<!-- r: ".(date("Y")-$dyear)." -->";
 
-	$range_date1=date("Y-m-d H:i",strtotime($ayb_tz,mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear)));
-	$range_date2=date("Y-m-d H:i",strtotime($ayb_tz,mktime(23,59,59, date("m")-$dmonth, date("d")-$dday+$range, date("Y")-$dyear)));	
+	$range_date1=date("Y-m-d H:i:00",strtotime($ayb_tz,mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear)));
+	$range_date2=date("Y-m-d H:i:00",strtotime($ayb_tz,mktime(23,59,59, date("m")-$dmonth, date("d")-$dday+$range, date("Y")-$dyear)));	
+
+	//$range_date1=get_gmt_from_date($range_date1);
+	//$range_date2=get_gmt_from_date($range_date2);	
+
+
   $month_day=date("m")."-".date("d");
 
 
   if($anniv==0) {
   $q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date_gmt >= '".$range_date1."' AND post_date_gmt <= '".$range_date2."') ORDER BY post_date_gmt ASC";	
   } else {
-	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND post_date_gmt LIKE '%".$month_day."%' AND post_date_gmt<CURDATE() ORDER BY post_date_gmt DESC";	 
+	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND post_date LIKE '%".$month_day."%' AND post_date<CURDATE() ORDER BY post_date_gmt DESC";	 
 	echo "<!-- Annivmode $month_day -->";
   }
   
-  /*echo "<p>$q</p>";
+ // echo "<p>$q</p>";
   print_r ($result);
-	*/
+	
   $result = $wpdb->get_results($q, OBJECT);
 	$post_date=$post_date_gmt;
 
@@ -134,43 +154,44 @@ function ayb_posts_init() {
 	$post_date=$result[0]->post_date_gmt;
 	$ts_post_date=gmmktime(0,0,0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,0,4));
 	$ts_date_old=$ts_post_date;
-		foreach ($result as $post) {
-			$post_date=$post->post_date_gmt;
-			
-			if ($showdate) {
-    		$post_date=$post->post_date_gmt;
-    		$ts_post_date_comp=gmmktime(substr($post_date,11,2),substr($post_date,14,2),0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,0,4));
-    		//echo substr($post_date,8,2).".".substr($post_date,5,2).".".substr($post_date,0,4)." ".substr($post_date,11,2).":".substr($post_date,14,2)."<br>";
-        $pdate='<span class="ayb_date">'.date($dateformat,$ts_post_date_comp)."</span> ";
-    	  } else {
-    		$pdate='';
-		  }
-			
-			
+	foreach ($result as $post) {
+		$post_date=$post->post_date_gmt;
+		
+		if ($showdate) {
+ 		$post_date=$post->post_date_gmt;
+ 		$ts_post_date_comp=gmmktime(substr($post_date,11,2),substr($post_date,14,2),0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,0,4));
+ 		//echo substr($post_date,8,2).".".substr($post_date,5,2).".".substr($post_date,0,4)." ".substr($post_date,11,2).":".substr($post_date,14,2)."<br>";
+     $pdate='<span class="ayb_date">'.date($dateformat,$ts_post_date_comp)."</span> ";
+ 	} else {
+ 		$pdate='';
+	}
 	$ts_post_date=gmmktime(0,0,0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,0,4));
 
-			if ($ts_post_date != $ts_date_old && $range!=0) {
-				break;
-				} else {
-					$ts_date_old=$ts_post_date;
-				}
-			$plink = get_permalink($post->ID);
-			$ptitle= $post->post_title;
-			echo $before.$pdate.'<a href="'.$plink.'" class="ayb_link">'.$ptitle.'</a>'.$after."\r";
-		
-				
-			}
+	if ($ts_post_date != $ts_date_old && $range!=0) {
+		break;
+		} else {
+			$ts_date_old=$ts_post_date;
+		}
+		$plink = get_permalink($post->ID);
+		$ptitle= $post->post_title;
+		echo $before.$pdate.'<a href="'.$plink.'" class="ayb_link">'.$ptitle.'</a>'.$after."\r";
+	}
 		} else { 
 		// Not found
   		if (!$anniv) {
+  		 if ($showdate) {
         $pdate='<span class="ayb_date">'.date($dateformat,gmmktime(0, 0, 0, date("m")-$dmonth  , date("d")-$dday, date("Y")-$dyear))."</span> ";
+			} else {
+        		$pdate='';
+        		}         
          } else {
-        $pdate='<span class="ayb_date">'.date($dateformat,gmmktime(0, 0, 0, date("m"), date("d"), date("Y")))."</span> ";
+       
+        		$pdate='<span class="ayb_date">'.date($dateformat,gmmktime(0, 0, 0, date("m"), date("d"), date("Y")))."</span> ";
+        		
         }
-      echo $before.'<span class="ayb_notfound">'.$notfound.'</span>'.$after."\r";
+      echo $before.$pdate.'<span class="ayb_notfound">'.$notfound.'</span>'.$after."\r";
 			
 		}
-		
 		
 	if($ayb_posts_is_widget) {
 		echo "</ul>".$after_widget;
@@ -204,7 +225,7 @@ function ayb_posts_init() {
 			$options["dateformat"]=strip_tags(stripslashes($_POST['ayb_posts_dateformat']));
 			$options["notfound"]=strip_tags(stripslashes($_POST['ayb_posts_notfound']));
 			$options["range"]=strip_tags(stripslashes($_POST['ayb_posts_range']));
-				$options["anniversary"]=strip_tags(stripslashes($_POST['ayb_posts_anniv']));
+			$options["anniversary"]=strip_tags(stripslashes($_POST['ayb_posts_anniv']));
 			update_option('ayb_posts', $options);
 			
 		}
@@ -220,8 +241,8 @@ function ayb_posts_init() {
 		echo '<p style="text-align:right;"><label for="ayb_posts_dateformat">' . __('Dateformat:',$ayb_posts_domain) . ' <input style="width: 45px;" id="ayb_posts_dateformat" name="ayb_posts_dateformat" type="text" value="'.$dateformat.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_notfound">' . __('Text, if no article found:','ayb_posts') . ' <input style="width: 200px;" id="ayb_posts_notfound" name="ayb_posts_notfound" type="text" value="'.$notfound.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_anniv">' . __('Anniversary-Mode:','ayb_posts') . ' <input style="width: 200px;" id="ayb_posts_anniv" name="ayb_posts_anniv" type="checkbox" value="1" '.(($anniv==0)?'':'checked').' /></label></p>';
-		//echo '<p style="text-align:right;"><input type="submit" id="ayb_posts_submit" name="ayb_posts_submit" value="'. __('Update',$ayb_posts_domain) . '" /></p>';
-		echo '<input type="hidden" id="ayb_posts_submit" name="ayb_posts_submit" value="1" />';
+		echo '<p style="text-align:right;"><input type="submit" id="ayb_posts_submit" name="ayb_posts_submit" value="'. __('Update',$ayb_posts_domain) . '" /></p>';
+		//echo '<input type="hidden" id="ayb_posts_submit" name="ayb_posts_submit" value="1" />';
 
 	}
 
