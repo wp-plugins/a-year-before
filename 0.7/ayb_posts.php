@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.7beta11
+Version: 0.7
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
