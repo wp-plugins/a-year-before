@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.7beta10
+Version: 0.7beta11
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
@@ -246,6 +246,20 @@ function ayb_posts_init() {
 
 	}
 
+
+/**
+ * Check for hook
+ */
+if ( function_exists('register_uninstall_hook') )
+	register_uninstall_hook(__FILE__, 'ayb_posts_deinstall');
+ 
+ /**
+ * Delete options in database
+ */
+function ayb_posts_deinstall() {
+
+	delete_option('ayb_posts');
+}
 	
 //
 add_action('widgets_init', 'ayb_posts_init');
