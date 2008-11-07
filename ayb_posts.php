@@ -117,14 +117,9 @@ function ayb_posts_init() {
 	$ayb_tz=ayb_sgn(get_option('gmt_offset')*(-1)).get_option('gmt_offset')." hour";
   $ayb_tz_sec=get_option('gmt_offset')*360000;  
   
-  //echo "<!-- r: ".(date("Y")-$dyear)." -->";
 
 	$range_date1=date("Y-m-d H:i:00",strtotime($ayb_tz,mktime(0, 0, 0, date("m")-$dmonth, date("d")-$dday, date("Y")-$dyear)));
 	$range_date2=date("Y-m-d H:i:00",strtotime($ayb_tz,mktime(23,59,59, date("m")-$dmonth, date("d")-$dday+$range, date("Y")-$dyear)));	
-
-	//$range_date1=get_gmt_from_date($range_date1);
-	//$range_date2=get_gmt_from_date($range_date2);	
-
 
   $month_day=date("m")."-".date("d");
 
@@ -133,11 +128,7 @@ function ayb_posts_init() {
   $q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date_gmt >= '".$range_date1."' AND post_date_gmt <= '".$range_date2."') ORDER BY post_date_gmt ASC";	
   } else {
 	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND post_date LIKE '%".$month_day."%' AND post_date<CURDATE() ORDER BY post_date_gmt DESC";	 
-	echo "<!-- Annivmode $month_day -->";
   }
-  
- // echo "<p>$q</p>";
-  print_r ($result);
 	
   $result = $wpdb->get_results($q, OBJECT);
 	$post_date=$post_date_gmt;
@@ -160,8 +151,7 @@ function ayb_posts_init() {
 		if ($showdate) {
  		$post_date=$post->post_date_gmt;
  		$ts_post_date_comp=gmmktime(substr($post_date,11,2),substr($post_date,14,2),0,substr($post_date,5,2),substr($post_date,8,2),substr($post_date,0,4));
- 		//echo substr($post_date,8,2).".".substr($post_date,5,2).".".substr($post_date,0,4)." ".substr($post_date,11,2).":".substr($post_date,14,2)."<br>";
-     $pdate='<span class="ayb_date">'.date($dateformat,$ts_post_date_comp)."</span> ";
+    $pdate='<span class="ayb_date">'.date($dateformat,$ts_post_date_comp)."</span> ";
  	} else {
  		$pdate='';
 	}
@@ -238,11 +228,10 @@ function ayb_posts_init() {
 		echo '<p style="text-align:right;"><label for="ayb_posts_year">' . __('Years before:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_year" name="ayb_posts_year" type="text" value="'.$year.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_range">' . __('Lookup-range:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_year" name="ayb_posts_range" type="text" value="'.$range.'" /></label></p>';		
 		echo '<p style="text-align:right;"><label for="ayb_posts_showdate">' . __('Show date:',$ayb_posts_domain) . ' <input style="width: 15px;" id="ayb_posts_showdate" name="ayb_posts_showdate" type="checkbox" value="1"'.(($showdate==0)?'':'checked').' /></label></p>';
-		echo '<p style="text-align:right;"><label for="ayb_posts_dateformat">' . __('Dateformat:',$ayb_posts_domain) . ' <input style="width: 45px;" id="ayb_posts_dateformat" name="ayb_posts_dateformat" type="text" value="'.$dateformat.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_dateformat">' . __('Dateformat:',$ayb_posts_domain) . ' <input style="width: 55px;" id="ayb_posts_dateformat" name="ayb_posts_dateformat" type="text" value="'.$dateformat.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_notfound">' . __('Text, if no article found:','ayb_posts') . ' <input style="width: 200px;" id="ayb_posts_notfound" name="ayb_posts_notfound" type="text" value="'.$notfound.'" /></label></p>';
-		echo '<p style="text-align:right;"><label for="ayb_posts_anniv">' . __('Anniversary-Mode:','ayb_posts') . ' <input style="width: 200px;" id="ayb_posts_anniv" name="ayb_posts_anniv" type="checkbox" value="1" '.(($anniv==0)?'':'checked').' /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_anniv">' . __('Anniversary-Mode:','ayb_posts') . ' <input style="width: 15px;" id="ayb_posts_anniv" name="ayb_posts_anniv" type="checkbox" value="1" '.(($anniv==0)?'':'checked').' /></label></p>';
 		echo '<p style="text-align:right;"><input type="submit" id="ayb_posts_submit" name="ayb_posts_submit" value="'. __('Update',$ayb_posts_domain) . '" /></p>';
-		//echo '<input type="hidden" id="ayb_posts_submit" name="ayb_posts_submit" value="1" />';
 
 	}
 
