@@ -70,11 +70,22 @@ The titles of the articles written half a year and two weeks before, also showin
 `ayb_posts("range=14&dateformat=y-m-d");`
 Looks up a year back for written articles. If none are found, the plugin will check the next 14 days in the future. If a article is found on some of this days, all articles of this day will be listed with a "year-month-day"-format.
 
+`ayb_posts("anniversary=1");`
+Shows the title of all posts, which were posted on the same day in the same month, independend of the year. E.g. on chistmas day you will see all posts, which are posted on december 24th since the blog was started.
+
 == Styling ==
 
 If you like CSS, you can style the date with the class `ayb_date`, the link of the article with the class `ayb_link` and the notfound-message by using the class `ayb_notfound`.
 
 == Changelog ==
+
+0.7beta10
+
+* fix: check if functions are already declared (for multiple use of the plugin)
+
+0.7beta9
+
+* unknown changes
 
 0.7beta8
 
