@@ -77,6 +77,11 @@ Shows the title of all posts, which were posted on the same day in the same mont
 
 If you like CSS, you can style the date with the class `ayb_date`, the link of the article with the class `ayb_link` and the notfound-message by using the class `ayb_notfound`.
 
+== Uninstall ==
+Before Wordpress 2.6.1: Delete the a-year-before-folder from the wordpress-plugin-folder.
+
+Since Wordpress 2.7: Deactivate the plugin, then select "delete" in the plugin-panel. The files *and* the options of this plugin will be deleted. Thank you for using "a year before". ;-)
+
 == Changelog ==
 
 0.7beta11
