@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.7
+Version: 0.7.1
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
@@ -21,9 +21,12 @@ if ( !defined( 'WP_LANG_DIR') )
 	define( 'WP_LANG_DIR', WP_CONTENT_DIR . '/languages' );
 
 
+
 $ayb_posts_domain = 'ayb_posts';
-$ayb_install_dir=dirname(plugin_basename(__FILE__));
-load_plugin_textdomain($ayb_posts_domain, WP_PLUGIN_DIR."/$ayb_install_dir", dirname(plugin_basename(__FILE__)));
+//$ayb_install_dir=dirname(plugin_basename(__FILE__));
+//load_plugin_textdomain($ayb_posts_domain, WP_PLUGIN_DIR."/$ayb_install_dir", dirname(plugin_basename(__FILE__)));
+//load_plugin_textdomain($ayb_posts_domain, WP_PLUGIN_DIR.'/'.dirname(plugin_basename(__FILE__)));
+
 
 function ayb_posts_init() {
 	if ( !function_exists('register_sidebar_widget') )
@@ -222,17 +225,29 @@ function ayb_posts_init() {
 
 		$title = htmlspecialchars($options['title'], ENT_QUOTES);
 
-		echo '<p style="text-align:right;"><label for="ayb_posts_title">' . __('Title:',$ayb_posts_domain) . ' <input style="width: 200px;" id="ayb_posts_title" name="ayb_posts_title" type="text" value="'.$title.'" /></label></p>';
+ echo '<p style="text-align:right;"><label for="ayb_posts_title">' . __('Title:',$ayb_posts_domain) . ' <input style="width: 200px;" id="ayb_posts_title" name="ayb_posts_title" type="text" value="'.$title.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_day">' . __('Days before:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_day" name="ayb_posts_day" type="text" value="'.$day.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_month">' . __('Months before:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_month" name="ayb_posts_month" type="text" value="'.$month.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_year">' . __('Years before:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_year" name="ayb_posts_year" type="text" value="'.$year.'" /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_range">' . __('Lookup-range:',$ayb_posts_domain) . ' <input style="width: 30px;" id="ayb_posts_year" name="ayb_posts_range" type="text" value="'.$range.'" /></label></p>';		
 		echo '<p style="text-align:right;"><label for="ayb_posts_showdate">' . __('Show date:',$ayb_posts_domain) . ' <input style="width: 15px;" id="ayb_posts_showdate" name="ayb_posts_showdate" type="checkbox" value="1"'.(($showdate==0)?'':'checked').' /></label></p>';
 		echo '<p style="text-align:right;"><label for="ayb_posts_dateformat">' . __('Dateformat:',$ayb_posts_domain) . ' <input style="width: 55px;" id="ayb_posts_dateformat" name="ayb_posts_dateformat" type="text" value="'.$dateformat.'" /></label></p>';
-		echo '<p style="text-align:right;"><label for="ayb_posts_notfound">' . __('Text, if no article found:','ayb_posts') . ' <input style="width: 200px;" id="ayb_posts_notfound" name="ayb_posts_notfound" type="text" value="'.$notfound.'" /></label></p>';
-		echo '<p style="text-align:right;"><label for="ayb_posts_anniv">' . __('Anniversary-Mode:','ayb_posts') . ' <input style="width: 15px;" id="ayb_posts_anniv" name="ayb_posts_anniv" type="checkbox" value="1" '.(($anniv==0)?'':'checked').' /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_notfound">' . __('Text, if no article found:',$ayb_posts_domain) . ' <input style="width: 200px;" id="ayb_posts_notfound" name="ayb_posts_notfound" type="text" value="'.$notfound.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_anniv">' . __('Anniversary-Mode:',$ayb_posts_domain) . ' <input style="width: 15px;" id="ayb_posts_anniv" name="ayb_posts_anniv" type="checkbox" value="1" '.(($anniv==0)?'':'checked').' /></label></p>';
 		echo '<p style="text-align:right;"><input type="submit" id="ayb_posts_submit" name="ayb_posts_submit" value="'. __('Update',$ayb_posts_domain) . '" /></p>';
 
+/*
+echo '<p style="text-align:right;"><label for="ayb_posts_title">' .'Title:' . ' <input style="width: 200px;" id="ayb_posts_title" name="ayb_posts_title" type="text" value="'.$title.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_day">' . 'Days before:' . ' <input style="width: 30px;" id="ayb_posts_day" name="ayb_posts_day" type="text" value="'.$day.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_month">' . 'Months before:' . ' <input style="width: 30px;" id="ayb_posts_month" name="ayb_posts_month" type="text" value="'.$month.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_year">' . 'Years before:' . ' <input style="width: 30px;" id="ayb_posts_year" name="ayb_posts_year" type="text" value="'.$year.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_range">' .'Lookup-range:' . ' <input style="width: 30px;" id="ayb_posts_year" name="ayb_posts_range" type="text" value="'.$range.'" /></label></p>';		
+		echo '<p style="text-align:right;"><label for="ayb_posts_showdate">' . 'Show date:'. ' <input style="width: 15px;" id="ayb_posts_showdate" name="ayb_posts_showdate" type="checkbox" value="1"'.(($showdate==0)?'':'checked').' /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_dateformat">' . 'Dateformat:' . ' <input style="width: 55px;" id="ayb_posts_dateformat" name="ayb_posts_dateformat" type="text" value="'.$dateformat.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_notfound">' . 'Text, if no article found:' . ' <input style="width: 200px;" id="ayb_posts_notfound" name="ayb_posts_notfound" type="text" value="'.$notfound.'" /></label></p>';
+		echo '<p style="text-align:right;"><label for="ayb_posts_anniv">' . 'Anniversary-Mode:'. ' <input style="width: 15px;" id="ayb_posts_anniv" name="ayb_posts_anniv" type="checkbox" value="1" '.(($anniv==0)?'':'checked').' /></label></p>';
+		echo '<p style="text-align:right;"><input type="submit" id="ayb_posts_submit" name="ayb_posts_submit" value="'. 'Update' . '" /></p>';
+*/
 	}
 
 
