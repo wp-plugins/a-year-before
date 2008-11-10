@@ -92,6 +92,7 @@ Since Wordpress 2.7: Deactivate the plugin, then select "delete" in the plugin-p
 
 * final release
 
+
 0.7beta11
 
 * added uninstall-feature for wordpress 2.7+. if the plugin is deleted, the options of this plugin will be deleted in the wordpress-database.
