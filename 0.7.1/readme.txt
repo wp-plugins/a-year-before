@@ -4,7 +4,7 @@ Donate link: http://wuerzblog.de/
 Tags: date, posts, history, widget
 Requires at least: 2.0.0
 Tested up to: 2.7
-Stable tag: 0.7
+Stable tag: 0.7.1
 
 »A Year Before« shows a list of articles, which were written a certain time ago. So you can show in a history, what happend in your blog in the past
 
@@ -83,6 +83,14 @@ Before Wordpress 2.6.1: Delete the a-year-before-folder from the wordpress-plugi
 Since Wordpress 2.7: Deactivate the plugin, then select "delete" in the plugin-panel. The files *and* the options of this plugin will be deleted. Thank you for using "a year before". ;-)
 
 == Changelog ==
+
+0.7.1
+
+* fix: due an issue with the gettext-function in PHP/Apache some server will output an warning/error-message. because of that error, the translations of the plugin will not longer work, but the plugin will.
+
+0.7
+
+* final release
 
 0.7beta11
 

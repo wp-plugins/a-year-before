@@ -108,7 +108,7 @@ Since Wordpress 2.7: Deactivate the plugin, then select "delete" in the plugin-p
 
 0.7beta4
 
-* adding anniversary-mode. if anniversary=0, all articles matching the current day and the current month will be show, regardless of which year (beside the actual year of course). all settings of day, month, year and range will be ignored.
+* adding anniversary-mode. if anniversary=1, all articles matching the current day and the current month will be show, regardless of which year (beside the actual year of course). all settings of day, month, year and range will be ignored.
 
 0.7beta3
 
