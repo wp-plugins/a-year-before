@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: A Year Before
-Version: 0.7.1
+Version: 0.7.2
 Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
 Author: Ralf Thees
 Author URI: http://wuerzblog.de/
@@ -130,9 +130,8 @@ function ayb_posts_init() {
   if($anniv==0) {
   $q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND (post_date_gmt >= '".$range_date1."' AND post_date_gmt <= '".$range_date2."') ORDER BY post_date_gmt ASC";	
   } else {
-	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND post_date LIKE '%".$month_day."%' AND post_date<CURDATE() ORDER BY post_date_gmt DESC";	 
+	$q="SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status='publish' AND post_password='' AND   SUBSTRING(post_date,6,5) = '".$month_day."' AND post_date<CURDATE() ORDER BY post_date_gmt DESC";	 
   }
-	
   $result = $wpdb->get_results($q, OBJECT);
 	$post_date=$post_date_gmt;
 
