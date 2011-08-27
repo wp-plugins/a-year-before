@@ -84,23 +84,17 @@ Shows the title of all posts, which were posted on the same day in the same mont
 If you like CSS, you can style the date with the class `ayb_date`, the link of the article with the class `ayb_link` and the notfound-message by using the class `ayb_notfound`.
 
 == Uninstall ==
-Before Wordpress 2.6.1: Delete the a-year-before-folder from the wordpress-plugin-folder.
-
-Since Wordpress 2.7: Deactivate the plugin, then select "delete" in the plugin-panel. The files *and* the options of this plugin will be deleted. Thank you for using "a year before". ;-)
+Deactivate the plugin, then select "delete" in the plugin-panel. The files *and* the options of this plugin will be deleted. Thank you for using "a year before". ;-)
 
 == Changelog ==
 
-= 0.8alpha2 =
+= 0.8 =
 
 * show pages or not
-* pattern for excerpt (thanks to Marcus from themenfreund.de for the idea)
-
-= 0.8alpha1 =
-
 * public, private or both articles can be shown
-* OOP-programming
+* widget output can be edited with patterns %link%, %title%, %date%, %excerpt% (thanks to Marcus from themenfreund.de for the excerpt-idea)
 * use of wordpress's widget-class (plugin works now wordpress 2.8+ only)
-* widget output can be edited with patterns
+* OOP-programming
 
 = 0.7beta11 =
 
