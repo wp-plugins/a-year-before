@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: A Year Before
- Version: 0.8alpha2
+ Version: 0.8beta1
  Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
  Author: Ralf Thees
  Author URI: http://wuerzblog.de/
@@ -23,7 +23,7 @@ if (!class_exists('ayb_posts_class'))
 {
 	class ayb_posts_class extends WP_Widget
 	{
-		var $pattern = '<li>%date%: <a href="%link%" title="%excerpt%">%article%</a> (%date%)</li>';
+		var $pattern = '<li>%date%: <a href="%link%" title="%excerpt%">%title%</a> (%date%)</li>';
 		var $ayb_posts_domain = 'ayb_posts';
 		var $excerpt_length=140;
 			
