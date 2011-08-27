@@ -23,15 +23,16 @@ if (!class_exists('ayb_posts_class'))
 {
 	class ayb_posts_class extends WP_Widget
 	{
-		var $pattern = '<li>%date%: <a href="%link%" title="%excerpt%">%title%</a> (%date%)</li>';
+		var $pattern ;
 		var $ayb_posts_domain = 'ayb_posts';
 		var $excerpt_length=140;
 			
+		
 			
 		function ayb_posts_class()
 		{
 			load_plugin_textdomain( 'ayb_posts', false, dirname(plugin_basename(__FILE__)) .  '' );
-
+			
 			if (function_exists('register_uninstall_hook'))
 			register_uninstall_hook(__FILE__, array(
 			&$this,
@@ -146,7 +147,7 @@ if (!class_exists('ayb_posts_class'))
 				} //$key
 			} //$instance as $key => $value
 
-			$this->pattern       = empty($instance['pattern']) ? __('<li>Das war am %date%: Lies <a href="%link%" title="%excerpt%">%title%</a> (%date%)</li>', 'ayb_posts') : $instance['pattern'];
+			$this->pattern       = empty($instance['pattern']) ? __('<li>On %date%: Read <a href="%link%" title="%excerpt%">%title%</a> (%date%)</li>', 'ayb_posts') : $instance['pattern'];
 			$instance['pattern'] = $this->pattern;
 			
 			$ex=preg_match('/\%excerpt(\d*)\%/',$this->pattern,$matches);
