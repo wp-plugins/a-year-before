@@ -10,7 +10,9 @@ Stable tag: 0.8
 
 == Description ==
 
-With "A Year Before" you can show the titles of the articles which were written a certain time ago. So you can show in a "historical corner", what happend in your blog e.g. 30 days, 6 months or a year before. You can use it as a wordpress-widget or put it in your theme as a php-function with parameters.
+With "A Year Before" you can show the titles of the articles which were written a certain time ago. So you can show in a "historical corner", what happend in your blog e.g. 30 days, 6 months or a year before. You also can use the "anniversary-mode", which will display all the posts through the years, which were written on this day and month.
+
+You can use it as a wordpress-widget or put it in your theme as a php-function with parameters.
 
 == Installation ==
 
