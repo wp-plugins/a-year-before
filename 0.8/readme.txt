@@ -1,7 +1,7 @@
 === A Year Before ===
 Contributors: wuerzblog
 Donate link: http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before
-Tags: date, posts, history, widget, time
+Tags: date, posts, history, widget, time, calendar
 Requires at least: 2.8.0
 Tested up to: 3.2.1
 Stable tag: 0.8
@@ -62,7 +62,6 @@ You can use the following parameters
 * before : piece of HTML to insert before the title of the articles. Default `<li>`
 * after: piece of HTML to insert after the title of the articles. Default `</li>`
 * range: number of days the plugin will search back in the future (relative to the values of day, month and year above) for an article. Meant as a "round about this day"-feature. Default 0
-* showdate: shows the date (showdate=1) before every title or not (showdate=0)
 * dateformat : dateformat as used by PHP. Default ist the german shortform "d.m.y"
 * notfound: the text the plugin will output, if no article is found on the defined date.
 * anniversary: if set to 1, the plugin will display all articles ever blogged with the same number of day and month. The parameters "day", "month", "year" and "range" will be ignored if used.
