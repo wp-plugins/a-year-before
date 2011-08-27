@@ -95,6 +95,7 @@ Deactivate the plugin, then select "delete" in the plugin-panel. The files *and*
 * show pages or not
 * public, private or both articles can be shown
 * widget output can be edited with patterns %link%, %title%, %date%, %excerpt% (thanks to Marcus from themenfreund.de for the excerpt-idea)
+* fixed bugs, i.e. timezone-bug
 * use of wordpress's widget-class (plugin works now wordpress 2.8+ only)
 * OOP-programming
 
