@@ -146,7 +146,7 @@ if (!class_exists('ayb_posts_class'))
 				} //$key
 			} //$instance as $key => $value
 
-			$this->pattern       = empty($instance['pattern']) ? __('<li>Das war am %date%: Lies <a href="%link%" title="%excerpt%">%article%</a> (%date%)</li>', 'ayb_posts') : $instance['pattern'];
+			$this->pattern       = empty($instance['pattern']) ? __('<li>Das war am %date%: Lies <a href="%link%" title="%excerpt%">%title%</a> (%date%)</li>', 'ayb_posts') : $instance['pattern'];
 			$instance['pattern'] = $this->pattern;
 			
 			$ex=preg_match('/\%excerpt(\d*)\%/',$this->pattern,$matches);
@@ -216,7 +216,7 @@ if (!class_exists('ayb_posts_class'))
 				{
 					$post_date = $post->post_date_gmt;
 					$this->excerpt=$post->post_excerpt;
-					if (empty($this->excerpt)) $this->excerpt= wp_html_excerpt(htmlspecialchars(strip_tags($post->post_content)),$this->excerpt_length)." &hellip;";	
+					if (empty($this->excerpt)) $this->excerpt= wp_html_excerpt((strip_tags($post->post_content)),$this->excerpt_length)." &hellip;";	
 
 					if ($showdate)
 					{
