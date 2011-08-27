@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: A Year Before
- Version: 0.8beta1
+ Version: 0.8
  Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
  Author: Ralf Thees
  Author URI: http://wuerzblog.de/
@@ -144,6 +144,12 @@ if (!class_exists('ayb_posts_class'))
 					case "anniversary":
 						$anniv = urldecode($value);
 						break;
+					case "private":
+						$private = urldecode($value);
+						break;
+					case "showpages":
+						$showpages = urldecode($value);
+						break;
 				} //$key
 			} //$instance as $key => $value
 
@@ -217,7 +223,7 @@ if (!class_exists('ayb_posts_class'))
 				{
 					$post_date = $post->post_date_gmt;
 					$this->excerpt=$post->post_excerpt;
-					if (empty($this->excerpt)) $this->excerpt= wp_html_excerpt((strip_tags($post->post_content)),$this->excerpt_length)." &hellip;";	
+					if (empty($this->excerpt)) $this->excerpt= wp_html_excerpt(htmlspecialchars(strip_tags($post->post_content)),$this->excerpt_length)." &hellip;";	
 
 					if ($showdate)
 					{
