@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: A Year Before
- Version: 0.8
+ Version: 0.9alpha
  Plugin URI: http://wuerzblog.de/2006/12/27/wordpress-plugin-a-year-before/
  Author: Ralf Thees
  Author URI: http://wuerzblog.de/
@@ -26,6 +26,7 @@ if (!class_exists('ayb_posts_class'))
 		var $pattern ;
 		var $ayb_posts_domain = 'ayb_posts';
 		var $excerpt_length=140;
+		var $posts_max=-1; // default
 			
 		
 			
@@ -107,8 +108,9 @@ if (!class_exists('ayb_posts_class'))
 			$notfound   = $instance["notfound"];
 			$range      = $instance["range"];
 			$private    = $instance["private"];
-			$showpages    = $instance["showpages"];
+			$showpages  = $instance["showpages"];
 			$anniv      = $instance["anniversary"];
+			$posts_max	= $instance['posts_max'];
 
 			foreach ($instance as $key => $value)
 			{
@@ -149,6 +151,9 @@ if (!class_exists('ayb_posts_class'))
 						break;
 					case "showpages":
 						$showpages = urldecode($value);
+						break;
+					case "posts_max":
+						$posts_max = urldecode($value);
 						break;
 				} //$key
 			} //$instance as $key => $value
