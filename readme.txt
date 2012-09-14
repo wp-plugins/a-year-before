@@ -3,8 +3,8 @@ Contributors: wuerzblog
 Donate link: http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before
 Tags: date, posts, history, widget, time
 Requires at least: 2.8.0
-Tested up to: 3.2.1
-Stable tag: 0.8
+Tested up to: 3.4.2
+Stable tag: 0.9
 
 "A Year Before" shows a list of articles, which were written a certain time ago. So you can show in a history, what happend in your blog in the past
 
@@ -68,6 +68,7 @@ You can use the following parameters
 * anniversary: if set to 1, the plugin will display all articles ever blogged with the same number of day and month. The parameters "day", "month", "year" and "range" will be ignored if used.
 * private: show private posts? 0: only public posts 1: private and public posts 2: only private posts. Default 0
 * showpages: show pages? 0: No, 1: Yes. Default 0
+* posts_max: number of articles to be shown. 0 means 'all'. Default 0
 
 = Examples =
 
@@ -90,7 +91,18 @@ If you like CSS, you can style the date with the class `ayb_date`, the link of t
 == Uninstall ==
 Deactivate the plugin, then select "delete" in the plugin-panel. The files *and* the options of this plugin will be deleted. Thank you for using "a year before". ;-)
 
+== Upgrade Notice ==
+
+= 0.9 =
+Set number of articles shown in the list
+
 == Changelog ==
+
+= 0.9 =
+
+* set number of articles to be listet
+* various fixes
+* changed url to my blog - http://herrthees.de is my new blog for programming, design, journalism, etc
 
 = 0.8 =
 
