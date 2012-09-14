@@ -23,10 +23,12 @@ if (!class_exists('ayb_posts_class'))
 {
 	class ayb_posts_class extends WP_Widget
 	{
-		var $pattern ;
+		
 		var $ayb_posts_domain = 'ayb_posts';
 		var $excerpt_length=140;
-		var $posts_max=-1; // default
+		var $posts_max=0; // default
+		var $pattern ;
+	    var $pattern_dafault='<li>On %date%: Read <a href="%link%" title="%excerpt%">%title%</a> (%date%)</li>';
 			
 		
 			
@@ -54,21 +56,19 @@ if (!class_exists('ayb_posts_class'))
 		function pattern_output()
 		{
 			$subpattern_array = array(
-                '/\%title\%/',
-                '/\%date\%/',
-                '/\%link\%/',
-				'/\%excerpt(\d*)\%/'
+                '/%title%/',
+                '/%date%/',
+                '/%link%/',
+				'/%excerpt(\d*)%/'
                 );
                 $var_array        = array(
-                $this->ptitle,
+                quotemeta($this->ptitle),
                 $this->datum,
                 $this->plink,
                 $this->excerpt
                 );
-                $r= preg_replace($subpattern_array, $var_array, $this->pattern);
-                
-                
-                return $r;
+                $r= preg_replace($subpattern_array, $var_array, $this->pattern);           
+                return stripslashes($r);
 		}
 
 		function widget($args, $instance)
@@ -158,7 +158,8 @@ if (!class_exists('ayb_posts_class'))
 				} //$key
 			} //$instance as $key => $value
 
-			$this->pattern       = empty($instance['pattern']) ? __('<li>On %date%: Read <a href="%link%" title="%excerpt%">%title%</a> (%date%)</li>', 'ayb_posts') : $instance['pattern'];
+						
+			$this->pattern       = empty($instance['pattern']) ? __($pattern_default, 'ayb_posts') : $instance['pattern'];
 			$instance['pattern'] = $this->pattern;
 			
 			$ex=preg_match('/\%excerpt(\d*)\%/',$this->pattern,$matches);
@@ -171,13 +172,12 @@ if (!class_exists('ayb_posts_class'))
 			$after      = empty($instance['after']) ? '</li>' : $instance['after'];
 			$excerpt_length      = empty($instance['excerpt_length']) ? 140 : $instance['excerpt_length'];
 			$title          = empty($instance['title']) ? __('A year before', 'ayb_posts') : apply_filters('widget_title', $instance['title']);
-
+			$posts_max = empty($instance['posts_max']) ? 0 : $instance['posts_max'];
 			if ($dday == 0 && $dmonth == 0 && $dyear == 0)
 			{
 				$dyear = 1;
 			} //$dday == 0 && $dmonth == 0 && $dyear == 0
 			$ts= current_time_fixed('timestamp',0);
-			//$ayb_tz     = ayb_sgn(get_option('gmt_offset') * (-1)) . get_option('gmt_offset') . " hour";
 			$ayb_tz ="now";
 			$ayb_tz_sec = get_option('gmt_offset') * 360000;
 
@@ -223,6 +223,13 @@ if (!class_exists('ayb_posts_class'))
 				$post_date    = $result[0]->post_date_gmt;
 				$ts_post_date = gmmktime(0, 0, 0, substr($post_date, 5, 2), substr($post_date, 8, 2), substr($post_date, 0, 4));
 				$ts_date_old  = $ts_post_date;
+				
+				// Anzahl der Posts
+				if ($posts_max>0 && sizeof($result)>$posts_max) {
+					$akey=array_rand($result, $posts_max);
+					for($i=0;$i<sizeof($akey);$i++) $temp_arr[]=$result[$akey[$i]];
+					$result=$temp_arr;
+				}
 
 				foreach ($result as $post)
 				{
@@ -257,10 +264,13 @@ if (!class_exists('ayb_posts_class'))
 
 					$this->ayb_article_list .= $this->pattern_output();
 					
+					
 				} //$result as $post
+				
 			} //$result
 			else
 			{
+				
 				if (!$anniv)
 				{
 					if ($showdate)
@@ -300,7 +310,7 @@ if (!class_exists('ayb_posts_class'))
 
 		function form($instance)
 		{
-			global $ayb_posts_domain;
+			global $ayb_posts_domain,$pattern_default;
 			$defaults = array(
                 'title' => __("A year before", 'ayb_posts'),
                 'day' => '0',
@@ -312,11 +322,11 @@ if (!class_exists('ayb_posts_class'))
                 'showdate' => '1',
 				'private' => '0',
 				'showpages' => '0',
+				'posts_max' => '0',
                 'notfound' => __('No articles on this date.','ayb_posts'),
-                'pattern' => $this->pattern
+                'pattern' => __($this->pattern_dafault,'ayb_posts')
 
 			);
-
 			$instance   = wp_parse_args((array) $instance, $defaults);
 			$title      = strip_tags($instance['title']);
 			$day        = strip_tags($instance['day']);
@@ -329,8 +339,10 @@ if (!class_exists('ayb_posts_class'))
 			$showpages   = $instance["showpages"];
 			$range      = $instance["range"];
 			$anniv      = $instance["anniversary"];
-			$pattern    = htmlspecialchars($instance["pattern"]);
-
+			$posts_max	= $instance["posts_max"];
+			$pattern_html    = htmlspecialchars($instance["pattern"]);
+			
+			
 			echo '<a href="http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a>';			
 			echo '<p style="text-align:right;"><label for="' . $this->get_field_id("title") . '">' . __('Title:', 'ayb_posts') . ' <input style="width: 200px;" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . $title . '" /></label></p>';
 			echo '<p style="text-align:right;"><label for="' . $this->get_field_id("day") . '">' . __('Days before:', 'ayb_posts') . ' <input style="width: 30px;" id="' . $this->get_field_id("day") . '" name="' . $this->get_field_name("day") . '" type="text" value="' . $day . '" /></label></p>';
@@ -345,7 +357,9 @@ if (!class_exists('ayb_posts_class'))
 			echo '<p style="text-align:right;"><label for="' . $this->get_field_id("notfound") . '">' . __('Text, if no article found:', 'ayb_posts') . ' <input style="width: 200px;" id="' . $this->get_field_id("notfound") . '" name="' . $this->get_field_name("notfound") . '" type="text" value="' . $notfound . '" /></label></p>';
 			echo '<p style="text-align:right;"><label for="' . $this->get_field_id("anniv") . '">' . __('Anniversary-Mode:', 'ayb_posts') . ' <input style="width: 15px;" id="' . $this->get_field_id("anniv") . '" name="' . $this->get_field_name("anniv") . '" type="checkbox" value="1" ' . (($anniv == 0) ? '' : 'checked') . ' /></label></p>';
 			//echo '<p style="text-align:right;"><label for="' . $this->get_field_id("pattern") . '">' . __('Output-pattern:', 'ayb_posts') . ' <input style="width: 200px;" id="' . $this->get_field_id("pattern") . '" name="' . $this->get_field_name("pattern") . '" type="text" value="' . $pattern . '" /></label></p>';
-			echo '<p style="text-align:right;"><label title="Use %title%, %date%, %link%, %excerpt%" for="' . $this->get_field_id("pattern") . '">' . __('Output-pattern:', 'ayb_posts') . ' <textarea style="width: 220px;" id="' . $this->get_field_id("pattern") . '" name="' . $this->get_field_name("pattern") . '" rows="4" >' . $pattern . '</textarea></label></p>';
+			echo '<p style="text-align:right;"><label title="0 = show all" for="' . $this->get_field_id("posts_max") . '">' . __('Max. number of posts shown:', 'ayb_posts') . ' <input style="width: 30px;" id="' . $this->get_field_id("posts_max") . '" name="' . $this->get_field_name("posts_max") . '" type="text" value="' . $posts_max . '" /></label></p>';
+			
+			echo '<p style="text-align:right;"><label title="Use %title%, %date%, %link%, %excerpt%" for="' . $this->get_field_id("pattern") . '">' . __('Output-pattern:', 'ayb_posts') . ' <textarea style="width: 220px;" id="' . $this->get_field_id("pattern") . '" name="' . $this->get_field_name("pattern") . '" rows="4" >' . $pattern_html . '</textarea></label></p>';
 
 		}
 
@@ -365,6 +379,7 @@ if (!class_exists('ayb_posts_class'))
 			$instance["private"]     = strip_tags(stripslashes($new_instance['private']));
 			$instance["showpages"]    = strip_tags(stripslashes($new_instance['showpages']));
 			$instance["anniversary"] = strip_tags(stripslashes($new_instance['anniv']));
+			$instance["posts_max"] = strip_tags(stripslashes($new_instance['posts_max']));
 			$instance["pattern"]     = stripslashes($new_instance['pattern']);
 
 			return $instance;
@@ -374,7 +389,7 @@ if (!class_exists('ayb_posts_class'))
 
 add_action('widgets_init', create_function('', 'return register_widget("ayb_posts_class");'));
 
-function ayb_posts($ayb_para)
+function ayb_posts($ayb_para=array())
 {
 	$ayb_parameter = explode('&', $ayb_para);
 	foreach ($ayb_parameter as $ayb_temp)
@@ -385,6 +400,7 @@ function ayb_posts($ayb_para)
 	$widget_arr            = array();
 	$ayb_man               = new ayb_posts_class;
 	$instance["no_widget"] = true;
+	print_r($instance);
 	$ayb_man->widget($widget_arr, $instance);
 }
 ?>
