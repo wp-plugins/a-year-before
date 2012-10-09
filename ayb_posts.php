@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: A Year Before
- Version: 0.9
+ Version: 0.9.1
  Plugin URI: http://herrthees.de/2012/09/15/wordpress-plugin-a-year-before/
  Author: Ralf Thees
  Author URI: http://herrthees.de/
@@ -44,30 +44,21 @@ if (!class_exists('ayb_posts_class')) {
 
 function set_plugin_meta($links,$file) {
 	
-	$donate_link='<a href="http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before" target="_blank">'. __('Donate with Flattr','ayb_posts').'</a>';
-	$thisFile = basename(__FILE__);
-        if (basename($file) == $thisFile) {
+	$plugin = plugin_basename(__FILE__);
+
+	// create link
+	if ($file == $plugin) {
             return array_merge( $links,   
-            array( $donate_link )
+            array( sprintf( '<a href="http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before"">%s</a>', __('Donate with Flattr','ayb_posts') ) )
+		
         );  
         
-}
+	}
+return $links;
 }
 
 
-		function filter_plugin_meta($links, $file) {
-		/* create link */
-			if ( $file == plugin_basename(__FILE__) ) {
-				$donate_link='<a href="http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before" target="_blank">'. __('Donate with Flattr','ayb_posts').'</a>';
-				array_unshift(
-					$links,
-					__($donate_link,'ayb_posts')
-				);
-			}
-			return $links;
-		}
-		
-		
+
 
 		function on_delete() {
 			delete_option('ayb_posts');
