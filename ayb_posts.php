@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: A Year Before
- Version: 0.9
+ Version: 0.9.1
  Plugin URI: http://herrthees.de/2012/09/15/wordpress-plugin-a-year-before/
  Author: Ralf Thees
  Author URI: http://herrthees.de/
@@ -21,16 +21,16 @@ if (!defined('WP_LANG_DIR'))
 
 if (!class_exists('ayb_posts_class')) {
 	class ayb_posts_class extends WP_Widget {
-		
-		
+
 		var $ayb_posts_domain = 'ayb_posts';
 		var $excerpt_length = 140;
 		var $posts_max = 0;
-		
+
 		var $pattern;
-		
-		var $pattern_dafault; // default
-		
+
+		var $pattern_dafault;
+		// default
+
 		function ayb_posts_class() {
 			load_plugin_textdomain('ayb_posts', false, dirname(plugin_basename(__FILE__)) . '');
 
@@ -38,36 +38,22 @@ if (!class_exists('ayb_posts_class')) {
 				register_uninstall_hook(__FILE__, array(&$this, 'on_delete'));
 			$widget_ops = array('classname' => 'ayb_posts', 'description' => __('Show articles a certain periode of time before', 'ayb_posts'));
 			$this -> WP_Widget('ayb_posts', __('A Year Before'), $widget_ops);
-			add_filter('plugin_row_meta', array($this, 'set_plugin_meta'), 10, 2);
-			
+			add_filter('plugin_row_meta', array($this, 'ayb_set_plugin_meta'), 10, 2);
+
 		}
 
-function set_plugin_meta($links,$file) {
-	
-	$donate_link='<a href="http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before" target="_blank">'. __('Donate with Flattr','ayb_posts').'</a>';
-	$thisFile = basename(__FILE__);
-        if (basename($file) == $thisFile) {
-            return array_merge( $links,   
-            array( $donate_link )
-        );  
-        
-}
-}
+		function ayb_set_plugin_meta($links, $file) {
 
+			$plugin = plugin_basename(__FILE__);
+			// create link
+			if ($file == $plugin) {
+				return array_merge(
+					$links, 
+					array(sprintf('<a href="http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before"">%s</a>', __('Donate with Flattr', 'ayb_posts'))));
 
-		function filter_plugin_meta($links, $file) {
-		/* create link */
-			if ( $file == plugin_basename(__FILE__) ) {
-				$donate_link='<a href="http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before" target="_blank">'. __('Donate with Flattr','ayb_posts').'</a>';
-				array_unshift(
-					$links,
-					__($donate_link,'ayb_posts')
-				);
 			}
 			return $links;
 		}
-		
-		
 
 		function on_delete() {
 			delete_option('ayb_posts');
@@ -82,7 +68,7 @@ function set_plugin_meta($links,$file) {
 
 		function widget($args, $instance) {
 			global $wpdb, $ayb_posts_domain, $pattern_dafault, $pattern;
-			
+
 			if (!function_exists('ayb_sgn')) {
 				function ayb_sgn($number) {
 					if ($number > 0)
@@ -164,10 +150,10 @@ function set_plugin_meta($links,$file) {
 			}//$instance as $key => $value
 
 			if (empty($instance['pattern'])) {
-	$this -> pattern=__('<li>%date%: <a href="%link%" title="%excerpt%">%title%</a></li>', 'ayb_posts');
-} else {
-	$this -> pattern=$instance['pattern'];
-}
+				$this -> pattern = __('<li>%date%: <a href="%link%" title="%excerpt%">%title%</a></li>', 'ayb_posts');
+			} else {
+				$this -> pattern = $instance['pattern'];
+			}
 			//$this -> pattern = empty($instance['pattern']) ? __($this->pattern_default, 'ayb_posts') : $instance['pattern'];
 
 			$instance['pattern'] = $this -> pattern;
@@ -229,7 +215,7 @@ function set_plugin_meta($links,$file) {
 			$result = $wpdb -> get_results($q, object);
 			$post_date = $post_date_gmt;
 			if ($result) {
-				
+
 				$post_date = $result[0] -> post_date_gmt;
 				$ts_post_date = gmmktime(0, 0, 0, substr($post_date, 5, 2), substr($post_date, 8, 2), substr($post_date, 0, 4));
 				$ts_date_old = $ts_post_date;
@@ -269,7 +255,6 @@ function set_plugin_meta($links,$file) {
 					$this -> ptitle = $post -> post_title;
 
 					$this -> ayb_article_list .= $this -> pattern_output();
-
 
 				} //$result as $post
 
@@ -377,6 +362,6 @@ function ayb_posts($ayb_para = array()) {
 	$ayb_man = new ayb_posts_class;
 	$instance["no_widget"] = true;
 	$ayb_man -> widget($widget_arr, $instance);
-	
+
 }
 ?>
