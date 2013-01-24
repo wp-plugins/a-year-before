@@ -93,10 +93,13 @@ Deactivate the plugin, then select "delete" in the plugin-panel. The files *and*
 
 == Upgrade Notice ==
 
-= 0.9.2 =
-Fix: Sometimes other post-types than posts and pages are shown
+= 0.9.3 =
+Fix: Error with PHP 5.3 when called by PHP-statement
 
 == Changelog ==
+
+= 0.9.3 =
+Fix: Error with PHP 5.3 when called by PHP-statement
 
 = 0.9.2 =
 
