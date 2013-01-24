@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: A Year Before
- Version: 0.9.1
+ Version: 0.9.3
  Plugin URI: http://herrthees.de/2012/09/15/wordpress-plugin-a-year-before/
  Author: Ralf Thees
  Author URI: http://herrthees.de/
@@ -199,7 +199,7 @@ if (!class_exists('ayb_posts_class')) {
 					$post_type = "post_type<>'page'";
 					break;
 				case  1 :
-					$post_type = "post_type<>''";
+					$post_type = "post_type='page' AND post_type='post'";
 					break;
 				default :
 					$post_type = "post_type<>'page'";
@@ -352,7 +352,7 @@ add_action('widgets_init', create_function('', 'return register_widget("ayb_post
 
 //
 
-function ayb_posts($ayb_para = array()) {
+function ayb_posts($ayb_para = '') {
 	$ayb_parameter = explode('&', $ayb_para);
 	foreach ($ayb_parameter as $ayb_temp) {
 		$b = split('=', $ayb_temp);
