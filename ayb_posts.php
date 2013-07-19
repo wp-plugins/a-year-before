@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: A Year Before
- Version: 0.9.3
+ Version: 0.9.4
  Plugin URI: http://herrthees.de/2012/09/15/wordpress-plugin-a-year-before/
  Author: Ralf Thees
  Author URI: http://herrthees.de/
@@ -196,13 +196,13 @@ if (!class_exists('ayb_posts_class')) {
 
 			switch ($showpages) {
 				case  0 :
-					$post_type = "post_type<>'page'";
+					$post_type = "post_type='post'";
 					break;
 				case  1 :
-					$post_type = "post_type='page' AND post_type='post'";
+					$post_type = "(post_type='page' OR post_type='post')";
 					break;
 				default :
-					$post_type = "post_type<>'page'";
+					$post_type = "post_type='post'";
 			}
 
 			if ($anniv == 0) {
