@@ -3,8 +3,8 @@ Contributors: wuerzblog
 Donate link: http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before
 Tags: date, posts, history, widget, time
 Requires at least: 2.8.0
-Tested up to: 3.5.1
-Stable tag: 0.9.2
+Tested up to: 4.2
+Stable tag: 0.9.5
 
 "A Year Before" shows a list of articles, which were written a certain time ago. So you can show in a history, what happend in your blog in the past
 
@@ -51,7 +51,7 @@ Use the output-pattern to define the look of the found articles. Possible patter
 
 = Not using the widget =
 
-You can pass some parameters in this scheme
+You can call the plugin with a PHP-statement in a Wordpress-Theme and pass some parameters in this scheme
 parameter1=value1&parameter2=value2&parameter3=value3 ...
 
 You can use the following parameters
@@ -93,10 +93,22 @@ Deactivate the plugin, then select "delete" in the plugin-panel. The files *and*
 
 == Upgrade Notice ==
 
-= 0.9.3 =
-Fix: Error with PHP 5.3 when called by PHP-statement
+= 1.0 =
+
+Fixed some PHP-Notices (Patch by lostfocus)
 
 == Changelog ==
+
+= 1.0 =
+
+Add: #thumbnail'-pattern to show post-thumbnails
+
+= 0.9.5 =
+
+Fixed some PHP-Notices (Patch by lostfocus https://gist.github.com/lostfocus/a68f0689d20feceb7911 )
+
+= 0.9.4 =
+Fix (again): Again sometimes other post-types (like menu-items) were shown.
 
 = 0.9.3 =
 Fix: Error with PHP 5.3 when called by PHP-statement. Thanks to www.hisky.de for reporting the error
