@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: A Year Before
- Version: 0.9.4
+ Version: 0.9.5
  Plugin URI: http://herrthees.de/2012/09/15/wordpress-plugin-a-year-before/
  Author: Ralf Thees
  Author URI: http://herrthees.de/
@@ -35,7 +35,7 @@ if (!class_exists('ayb_posts_class')) {
 			load_plugin_textdomain('ayb_posts', false, dirname(plugin_basename(__FILE__)) . '');
 
 			if (function_exists('register_uninstall_hook'))
-				register_uninstall_hook(__FILE__, array(&$this, 'on_delete'));
+				register_uninstall_hook(__FILE__, array('ayb_posts_class', 'on_delete'));
 			$widget_ops = array('classname' => 'ayb_posts', 'description' => __('Show articles a certain periode of time before', 'ayb_posts'));
 			$this -> WP_Widget('ayb_posts', __('A Year Before'), $widget_ops);
 			add_filter('plugin_row_meta', array($this, 'ayb_set_plugin_meta'), 10, 2);
@@ -60,8 +60,8 @@ if (!class_exists('ayb_posts_class')) {
 		}
 
 		function pattern_output() {
-			$subpattern_array = array('/%title%/', '/%date%/', '/%link%/', '/%excerpt(\d*)%/');
-			$var_array = array(quotemeta($this -> ptitle), $this -> datum, $this -> plink, $this -> excerpt);
+			$subpattern_array = array('/%title%/', '/%date%/', '/%link%/', '/%excerpt(\d*)%/','/%thumbnail(\d*)%/');
+			$var_array = array(quotemeta($this -> ptitle), $this -> datum, $this -> plink, $this -> excerpt, $this->thumbnail);
 			$r = preg_replace($subpattern_array, $var_array, $this -> pattern);
 			return stripslashes($r);
 		}
@@ -150,7 +150,7 @@ if (!class_exists('ayb_posts_class')) {
 			}//$instance as $key => $value
 
 			if (empty($instance['pattern'])) {
-				$this -> pattern = __('<li>%date%: <a href="%link%" title="%excerpt%">%title%</a></li>', 'ayb_posts');
+				$this -> pattern = __('<li>%date%: <a href="%link%" title="%excerpt%">%title%<br/>%thumbnail%</a></li>', 'ayb_posts');
 			} else {
 				$this -> pattern = $instance['pattern'];
 			}
@@ -213,7 +213,7 @@ if (!class_exists('ayb_posts_class')) {
 			}
 
 			$result = $wpdb -> get_results($q, object);
-			$post_date = $post_date_gmt;
+			$post_date = $post_date_gmt = false;
 			if ($result) {
 
 				$post_date = $result[0] -> post_date_gmt;
@@ -253,8 +253,11 @@ if (!class_exists('ayb_posts_class')) {
 					$this -> datum = $pdate;
 					$this -> plink = get_permalink($post -> ID);
 					$this -> ptitle = $post -> post_title;
+					$this -> thumbnail = get_the_post_thumbnail($post -> ID);
 
 					$this -> ayb_article_list .= $this -> pattern_output();
+					
+					
 
 				} //$result as $post
 
@@ -276,13 +279,13 @@ if (!class_exists('ayb_posts_class')) {
 
 			}
 
-			if ($instance["no_widget"]) {
+			if (isset($instance["no_widget"]) && $instance["no_widget"]) {
 				echo $this -> ayb_article_list;
 			}//$instance["no_widget"]
 			else {
 				extract($args);
 
-				$title = attribute_escape($instance['title']);
+				$title = esc_attr($instance['title']);
 				echo $before_widget . $before_title . $title . $after_title;
 				echo '<ul>' . $this -> ayb_article_list . '</ul>';
 				echo $after_widget;
@@ -320,7 +323,7 @@ if (!class_exists('ayb_posts_class')) {
 			echo '<p style="text-align:right;"><label for="' . $this -> get_field_id("notfound") . '">' . __('Text, if no article found:', 'ayb_posts') . ' <input style="width: 200px;" id="' . $this -> get_field_id("notfound") . '" name="' . $this -> get_field_name("notfound") . '" type="text" value="' . $notfound . '" /></label></p>';
 			echo '<p style="text-align:right;"><label for="' . $this -> get_field_id("anniv") . '">' . __('Anniversary-Mode:', 'ayb_posts') . ' <input style="width: 15px;" id="' . $this -> get_field_id("anniv") . '" name="' . $this -> get_field_name("anniv") . '" type="checkbox" value="1" ' . (($anniv == 0) ? '' : 'checked') . ' /></label></p>';
 			echo '<p style="text-align:right;"><label title="0 = show all" for="' . $this -> get_field_id("posts_max") . '">' . __('Max. number of posts shown:', 'ayb_posts') . ' <input style="width: 30px;" id="' . $this -> get_field_id("posts_max") . '" name="' . $this -> get_field_name("posts_max") . '" type="text" value="' . $posts_max . '" /></label></p>';
-			echo '<p style="text-align:right;"><label title="Use %title%, %date%, %link%, %excerpt%" for="' . $this -> get_field_id("pattern") . '">' . __('Output-pattern:', 'ayb_posts') . ' <textarea style="width: 220px;" id="' . $this -> get_field_id("pattern") . '" name="' . $this -> get_field_name("pattern") . '" rows="4" >' . $pattern_html . '</textarea></label></p>';
+			echo '<p style="text-align:right;"><label title="Use %title%, %date%, %link%, %excerpt%, %thumbnail%" for="' . $this -> get_field_id("pattern") . '">' . __('Output-pattern:', 'ayb_posts') . ' <textarea style="width: 220px;" id="' . $this -> get_field_id("pattern") . '" name="' . $this -> get_field_name("pattern") . '" rows="4" >' . $pattern_html . '</textarea></label></p>';
 
 		}
 

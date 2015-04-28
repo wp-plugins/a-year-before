@@ -3,8 +3,8 @@ Contributors: wuerzblog
 Donate link: http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before
 Tags: date, posts, history, widget, time
 Requires at least: 2.8.0
-Tested up to: 4.2
-Stable tag: 0.9.4
+Tested up to: 4.2.1
+Stable tag: 1.0
 
 "A Year Before" shows a list of articles, which were written a certain time ago. So you can show in a history, what happend in your blog in the past
 
@@ -48,6 +48,7 @@ Use the output-pattern to define the look of the found articles. Possible patter
 * %link% The link to the article
 * %date% The date of the article
 * %excerpt% The excerpt of the article. You can define the number of displayed characters bei appending the number like %excerpt80%, which will display 80 characters.
+* %thumbnail% The featured image of the article.
 
 = Not using the widget =
 
@@ -93,10 +94,19 @@ Deactivate the plugin, then select "delete" in the plugin-panel. The files *and*
 
 == Upgrade Notice ==
 
-= 0.9.4 =
-Fix (again): Sometimes other post-types (like menu-items) were shown.
+= 1.0 =
+
+Add: #thumbnail'-pattern to show featured imagages of articles
 
 == Changelog ==
+
+= 1.0 =
+
+Add: #thumbnail'-pattern to show featured imagages of articles
+
+= 0.9.5 =
+
+Fixed some PHP-Notices (Patch by lostfocus https://gist.github.com/lostfocus/a68f0689d20feceb7911 )
 
 = 0.9.4 =
 Fix (again): Again sometimes other post-types (like menu-items) were shown.
