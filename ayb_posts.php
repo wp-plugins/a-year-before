@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: A Year Before
- Version: 0.9.5
+ Version: 1.0
  Plugin URI: http://herrthees.de/2012/09/15/wordpress-plugin-a-year-before/
  Author: Ralf Thees
  Author URI: http://herrthees.de/
