@@ -1,7 +1,7 @@
 === A Year Before ===
 Contributors: wuerzblog
 Donate link: http://flattr.com/thing/313825/Wordpress-Plugin-A-Year-Before
-Tags: date, posts, history, widget, time
+Tags: date, posts, history, widget, time, anniversary, birthday, yearly, daily
 Requires at least: 2.8.0
 Tested up to: 4.2.1
 Stable tag: 1.0
